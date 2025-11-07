@@ -42,7 +42,6 @@
     .bar>div{ height:100%; background:linear-gradient(90deg, var(--accent), #fbbf24, #fde68a) }
     .tab{ cursor:pointer; padding:.5rem 1rem; border-radius:999px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04) }
     .tab.active{ background:rgba(29,78,216,.2); border-color: rgba(29,78,216,.5) }
-    .link{ color:#bfdbfe; }
     .img-thumb{max-height:120px; border-radius:12px; border:1px solid rgba(255,255,255,.1)}
   </style>
 </head>
@@ -60,16 +59,23 @@
       </div>
       <nav class="flex items-center gap-2">
         <span id="whoami" class="hidden text-sm text-slate-300 pill px-3 py-1"></span>
+        <span id="pointsBadge" class="hidden text-sm pill px-3 py-1 border border-amber-400/40 text-amber-200">نقاط: 0</span>
         <button id="btnLogout" class="hidden btn px-4 py-2 pill hover:bg-white/10">تسجيل الخروج</button>
       </nav>
     </div>
   </header>
 
   <main class="px-6 md:px-12 pb-16">
+    <!-- ======= إعلان عام للجميع (يتحكم به المسؤول) ======= -->
+    <div id="announcement" class="hidden max-w-7xl mx-auto mb-4 p-4 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between">
+      <span id="announcementText" class="text-sm text-amber-200"></span>
+      <button id="closeAnnouncement" class="text-xs text-slate-400 hover:text-white">إغلاق</button>
+    </div>
+
     <!-- Auth -->
     <section id="authSection">
       <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
-        <!-- ملاحظة: ترتيب العناصر هنا يضمن (تسجيل الدخول) في العمود الأول = يمين في RTL -->
+        <!-- تسجيل الدخول (يمين) -->
         <div class="card p-6 md:p-8">
           <h2 class="text-2xl font-bold mb-4">تسجيل الدخول</h2>
           <div class="space-y-3">
@@ -80,6 +86,7 @@
           </div>
         </div>
 
+        <!-- إنشاء حساب (يسار) -->
         <div class="card p-6 md:p-8">
           <h2 class="text-2xl font-bold mb-4">إنشاء حساب</h2>
           <div class="space-y-3">
@@ -135,18 +142,15 @@
       <!-- Student dashboard -->
       <div id="studentDash" class="hidden">
         <div class="grid grid-cols-12 gap-4">
-          <!-- Countdown -->
-          <div class="card p-5 col-span-12 md:col-span-4">
-            <h3 class="text-xl font-bold mb-2">عداد اختبارك القادم</h3>
-            <div class="text-sm text-slate-300 mb-2">حدد موعد اختبارك من الملف الشخصي لتشغيل العداد.</div>
-            <div id="countdown" class="text-center text-2xl font-extrabold text-amber-200">— : — : — : —</div>
-            <div class="text-xs text-slate-400 mt-1">أيام : ساعات : دقائق : ثوانٍ</div>
-          </div>
+          <!-- (حذفنا بطاقة العداد بالكامل) -->
 
-          <div class="card p-5 col-span-12 md:col-span-8">
+          <div class="card p-5 col-span-12">
             <div class="flex items-center justify-between mb-3">
               <h3 id="testsTitle" class="text-xl font-bold">الاختبارات المتاحة</h3>
-              <span class="badge" id="testsCount">0 اختبار</span>
+              <div class="flex items-center gap-2">
+                <span class="badge" id="testsCount">0 اختبار</span>
+                <span class="badge" id="studentPoints">نقاطك: 0</span>
+              </div>
             </div>
             <div id="testsList" class="space-y-3"></div>
           </div>
@@ -212,14 +216,6 @@
             <h4 class="text-lg font-bold mb-3">تعديل الملف الشخصي</h4>
             <div id="profileTeacher" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
           </div>
-
-          <div class="card p-5 col-span-12">
-            <h4 class="text-lg font-bold mb-3">مراسلة المسؤول</h4>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-2">
-              <textarea id="tMsgToAdmin" rows="3" class="input md:col-span-3" placeholder="اكتب رسالتك للمسؤول..."></textarea>
-              <button id="tSendMsgToAdmin" class="btn pill px-3 py-2 bg-white/10 hover:bg-white/20">إرسال</button>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -230,7 +226,7 @@
             <div class="flex items-center justify-between">
               <div>
                 <h3 class="text-xl font-bold">لوحة المسؤول</h3>
-                <p class="text-slate-400 text-sm">المستخدمون، الاختبارات، الرسائل</p>
+                <p class="text-slate-400 text-sm">المستخدمون • الاختبارات • الرسائل • الإعلان العام</p>
               </div>
               <div>
                 <span class="badge" id="statsUsers">0 مستخدم</span>
@@ -239,9 +235,14 @@
             </div>
           </div>
 
+          <!-- إعلان عام (ميزة للمسؤول) -->
           <div class="card p-5 col-span-12 md:col-span-6">
-            <h4 class="text-lg font-bold mb-3">جميع المسجلين</h4>
-            <div id="adminUsers" class="space-y-2 text-sm"></div>
+            <h4 class="text-lg font-bold mb-3">إعلان عام</h4>
+            <textarea id="announceInput" class="input mb-2" placeholder="اكتب إعلان يظهر للجميع (مثال: مواعيد اختبار، تنبيهات...)"></textarea>
+            <div class="flex gap-2">
+              <button id="setAnnounce" class="btn pill px-3 py-2 bg-white/10 hover:bg-white/20">نشر الإعلان</button>
+              <button id="clearAnnounce" class="btn pill px-3 py-2 bg-red-500/20 border border-red-500/30">مسح الإعلان</button>
+            </div>
           </div>
 
           <div class="card p-5 col-span-12 md:col-span-6">
@@ -249,21 +250,21 @@
             <div id="adminInbox" class="space-y-3"></div>
           </div>
 
-          <div class="card p-5 col-span-12">
-            <h4 class="text-lg font-bold mb-3">جميع الاختبارات</h4>
-            <div id="adminTests" class="space-y-3"></div>
+          <div class="card p-5 col-span-12 md:col-span-6">
+            <h4 class="text-lg font-bold mb-3">جميع المسجلين</h4>
+            <div id="adminUsers" class="space-y-2 text-sm"></div>
           </div>
 
-          <div class="card p-5 col-span-12">
-            <h4 class="text-lg font-bold mb-3">تعديل الملف الشخصي (مسؤول)</h4>
-            <div id="profileAdmin" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+          <div class="card p-5 col-span-12 md:col-span-6">
+            <h4 class="text-lg font-bold mb-3">جميع الاختبارات</h4>
+            <div id="adminTests" class="space-y-3"></div>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Modal: take test -->
+  <!-- Modal: حل اختبار -->
   <div id="takeModal" class="hidden fixed inset-0 z-50 items-center justify-center bg-black/60">
     <div class="card w-[95%] max-w-2xl p-6">
       <div class="flex items-center justify-between mb-3">
@@ -283,14 +284,13 @@
       tests: 'mq_tests',
       msgs: 'mq_msgs',
       results: 'mq_results', // student test results
+      ANN_KEY: 'mq_announce',
       seed(){
-        // users
         const u = JSON.parse(localStorage.getItem(this.users)||'[]');
         if(!u.find(x=>x.email==='admin@gmail.com')){
-          u.push({id:crypto.randomUUID(), role:'admin', name:'مدير النظام', email:'admin@gmail.com', password:'admin123456'});
+          u.push({id:crypto.randomUUID(), role:'admin', name:'مدير النظام', email:'admin@gmail.com', password:'admin123456', points:0});
           localStorage.setItem(this.users, JSON.stringify(u));
         }
-        // tests/messages/results
         for(const k of [this.tests,this.msgs,this.results]) if(!localStorage.getItem(k)) localStorage.setItem(k,'[]');
 
         // Seed sample tests (once)
@@ -317,6 +317,8 @@
       setMsgs(v){ localStorage.setItem(this.msgs, JSON.stringify(v)); },
       getResults(){ return JSON.parse(localStorage.getItem(this.results)||'[]'); },
       setResults(v){ localStorage.setItem(this.results, JSON.stringify(v)); },
+      getAnn(){ return localStorage.getItem(this.ANN_KEY)||''; },
+      setAnn(msg){ localStorage.setItem(this.ANN_KEY,msg||''); }
     };
     DB.seed();
 
@@ -352,12 +354,11 @@
       if(!name||!email||!password) return toast('أكمل الحقول','warn');
       const users=DB.getUsers();
       if(users.find(u=>u.email===email)) return toast('البريد مستخدم','err');
-      const newUser={id:crypto.randomUUID(), role:regRole, name,email,password};
+      const newUser={id:crypto.randomUUID(), role:regRole, name,email,password, points:0};
       if(regRole==='student'){
         const g=$('#regGrade').value, c=$('#regClass').value;
         if(!g||!c) return toast('اختر الصف والفصل','warn');
         newUser.grade=g; newUser.class=c;
-        newUser.examAt=null; // موعد الاختبار
       }
       users.push(newUser); DB.setUsers(users);
       toast('تم إنشاء الحساب');
@@ -374,6 +375,7 @@
       $('#appSection').classList.remove('hidden');
       $('#btnLogout').classList.remove('hidden'); $('#whoami').classList.remove('hidden');
       $('#whoami').textContent=`${roles[user.role]} — ${user.name}`;
+      $('#pointsBadge').classList.remove('hidden');
       route();
       toast('مرحباً بك');
     };
@@ -385,54 +387,54 @@
       const base=`
         <input id="pName" class="input" placeholder="الاسم" value="${currentUser.name||''}">
         <input id="pEmail" class="input" placeholder="البريد" value="${currentUser.email||''}">
-        ${isStudent
-          ? '<select id="pGrade" class="input"><option>أول ثانوي</option><option>ثاني ثانوي</option><option>ثالث ثانوي</option></select>\
-             <select id="pClass" class="input"><option>1</option><option>2</option><option>3</option><option>4</option></select>\
-             <div class="text-sm text-slate-300">موعد اختبارك:</div>\
-             <input id="pExamAt" class="input" type="datetime-local">'
-          : ''}
         <input id="pPass" class="input" placeholder="كلمة مرور جديدة (اختياري)" type="password">
         <div class="flex gap-2">
           <button id="pSave" class="btn pill px-3 py-2 bg-white/10 hover:bg-white/20">حفظ</button>
           <button id="pDelete" class="btn pill px-3 py-2 border border-red-500/40 text-red-300 hover:bg-red-500/10">حذف الحساب</button>
         </div>`;
       c.insertAdjacentHTML('beforeend', base);
-      if(isStudent){
-        $('#pGrade').value=currentUser.grade||'أول ثانوي';
-        $('#pClass').value=currentUser.class||'1';
-        if(currentUser.examAt){
-          const dt = new Date(currentUser.examAt);
-          const iso = dt.toISOString().slice(0,16);
-          $('#pExamAt').value = iso;
-        }
-      }
       $('#pSave').onclick=()=>{
         const users=DB.getUsers();
         const idx=users.findIndex(u=>u.id===currentUser.id);
         users[idx].name=$('#pName').value.trim();
         users[idx].email=$('#pEmail').value.trim().toLowerCase();
-        if(isStudent){
-          users[idx].grade=$('#pGrade').value;
-          users[idx].class=$('#pClass').value;
-          const ex=$('#pExamAt').value;
-          users[idx].examAt = ex ? new Date(ex).toISOString() : null;
-        }
         const np=$('#pPass').value; if(np) users[idx].password=np;
         DB.setUsers(users); currentUser=users[idx]; saveSession();
         $('#whoami').textContent=`${roles[currentUser.role]} — ${currentUser.name}`;
         toast('تم الحفظ');
-        updateCountdown(); // في حال تغيّر الموعد
+        updatePointsUI();
       };
       $('#pDelete').onclick=()=>{
         if(!confirm('هل أنت متأكد من حذف الحساب؟')) return;
         const users=DB.getUsers().filter(u=>u.id!==currentUser.id);
-        DB.setUsers(users); toast('تم حذف الحساب','warn'); logout();
+        DB.setUsers(users);
+        DB.setMsgs(DB.getMsgs().filter(m=>m.from!==currentUser.id));
+        DB.setResults(DB.getResults().filter(r=>r.userId!==currentUser.id));
+        toast('تم حذف الحساب','warn'); logout();
       };
     }
 
-    // ===== Results helpers =====
+    // ===== Results / Points =====
     function solvedByUser(userId){ return DB.getResults().filter(r=>r.userId===userId); }
     function isSolved(userId,testId){ return DB.getResults().some(r=>r.userId===userId && r.testId===testId); }
+    function recalcPoints(userId){
+      const users = DB.getUsers();
+      const idx = users.findIndex(u=>u.id===userId);
+      const solvedCount = solvedByUser(userId).length;
+      const pts = solvedCount * 10; // كل اختبار عليه 10 نقاط
+      users[idx].points = pts;
+      DB.setUsers(users);
+      if(currentUser && currentUser.id===userId){ currentUser=users[idx]; saveSession(); }
+      return pts;
+    }
+    function updatePointsUI(){
+      if(!currentUser) return;
+      const pts = currentUser.points || 0;
+      const pb = $('#pointsBadge');
+      if(pb){ pb.textContent = 'نقاط: '+pts; }
+      const sp = $('#studentPoints');
+      if(sp){ sp.textContent = 'نقاطك: '+pts; }
+    }
 
     // ===== Motivation =====
     const phrases = [
@@ -442,21 +444,24 @@
       'تركيزك الآن = نقاط أعلى لاحقاً ✨',
     ];
     function rotateMotivation(){
-      const el = $('#motivationText'); let i=0;
+      const el = document.getElementById('motivationText'); let i=0;
       setInterval(()=>{ i=(i+1)%phrases.length; el.textContent=phrases[i]; }, 4000);
     }
 
     function updateProgress(){
-      if(currentUser.role!=='student') { $('#motivation').classList.add('hidden'); return; }
-      $('#motivation').classList.remove('hidden');
+      if(currentUser.role!=='student') { document.getElementById('motivation').classList.add('hidden'); return; }
+      document.getElementById('motivation').classList.remove('hidden');
       const total=DB.getTests().length;
       const solved=solvedByUser(currentUser.id).length;
       const pct = total? Math.round((solved/total)*100):0;
-      $('#progressBar').style.width=pct+'%';
-      $('#progressText').textContent=pct+'%';
-      $('#badge1').classList.toggle('hidden', solved<1);
-      $('#badge2').classList.toggle('hidden', solved<5);
-      $('#badge3').classList.toggle('hidden', solved<10);
+      document.getElementById('progressBar').style.width=pct+'%';
+      document.getElementById('progressText').textContent=pct+'%';
+      document.getElementById('badge1').classList.toggle('hidden', solved<1);
+      document.getElementById('badge2').classList.toggle('hidden', solved<5);
+      document.getElementById('badge3').classList.toggle('hidden', solved<10);
+      // نقاط
+      recalcPoints(currentUser.id);
+      updatePointsUI();
     }
 
     // ===== Student =====
@@ -470,13 +475,13 @@
 
       // available tests = not solved
       const available=list.filter(t=>!isSolved(currentUser.id,t.id));
-      $('#testsTitle').textContent =
+      document.getElementById('testsTitle').textContent =
         tab==='all' ? 'الاختبارات المتاحة' :
         tab==='placement' ? 'اختبارات تحديد المستوى' :
         tab==='verbal' ? 'التجميعات — لفظي' : 'التجميعات — كمي';
 
-      $('#testsCount').textContent = `${available.length} اختبار`;
-      const wrap=$('#testsList'); wrap.innerHTML='';
+      document.getElementById('testsCount').textContent = `${available.length} اختبار`;
+      const wrap=document.getElementById('testsList'); wrap.innerHTML='';
       available.forEach(t=>{
         const row=document.createElement('div');
         row.className='p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between gap-3';
@@ -494,7 +499,7 @@
         const t=all.find(x=>x.id===r.testId);
         return {title:t?t.title:'اختبار', score:r.score, total:r.total, category:t?t.category:'—'};
       });
-      const sWrap=$('#solvedList'); sWrap.innerHTML='';
+      const sWrap=document.getElementById('solvedList'); sWrap.innerHTML='';
       solved.forEach(s=>{
         const el=document.createElement('div');
         el.className='p-3 rounded-lg bg-white/5 border border-white/10 flex items-center justify-between';
@@ -507,8 +512,7 @@
       loadStudentReplies();
       buildProfileForm('#profileStudent');
       updateProgress();
-      updateCountdown();
-      $('#studentTabs').classList.remove('hidden');
+      document.getElementById('studentTabs').classList.remove('hidden');
     }
 
     function labelCat(cat){
@@ -519,7 +523,7 @@
       setStudentTab('all');
     }
 
-    // ===== Teacher =====
+    // ===== Teacher (المعلم ما زال يضيف اختبارات - إذا تبغى نوقفها قل لي) =====
     let qCount=0;
     function addQuestionUI(){
       const idx=++qCount;
@@ -545,7 +549,7 @@
         <div class="mt-2 text-sm text-slate-300">(اختياري) صورة للسؤال:</div>
         <input type="file" accept="image/*" id="${id}" class="input">
         <div class="mt-2" data-preview></div>`;
-      $('#questionsBox').appendChild(box);
+      document.getElementById('questionsBox').appendChild(box);
 
       const fileInput = box.querySelector('#'+id);
       const preview = box.querySelector('[data-preview]');
@@ -556,13 +560,13 @@
         reader.readAsDataURL(file);
       };
     }
-    $('#addQuestion').onclick=addQuestionUI;
+    document.getElementById('addQuestion').onclick=addQuestionUI;
 
-    $('#saveTest').onclick=()=>{
-      const title=$('#testTitle').value.trim();
-      const category=$('#testCategory').value;
+    document.getElementById('saveTest').onclick=()=>{
+      const title=document.getElementById('testTitle').value.trim();
+      const category=document.getElementById('testCategory').value;
       if(!title) return toast('اكتب عنوان الاختبار','warn');
-      const blocks=Array.from($('#questionsBox').children);
+      const blocks=Array.from(document.getElementById('questionsBox').children);
       if(blocks.length===0) return toast('أضف أسئلة','warn');
       const qs=blocks.map(b=>{
         const ins=b.querySelectorAll('input'); const sel=b.querySelector('select');
@@ -577,14 +581,14 @@
       const tests=DB.getTests();
       tests.push({id:crypto.randomUUID(), title, category, questions:qs, teacherId:currentUser.id, teacherName:currentUser.name, createdAt:Date.now()});
       DB.setTests(tests);
-      $('#testTitle').value=''; $('#questionsBox').innerHTML=''; qCount=0;
+      document.getElementById('testTitle').value=''; document.getElementById('questionsBox').innerHTML=''; qCount=0;
       toast('تم حفظ الاختبار'); showTeacher();
     };
 
     function showTeacher(){
       const mine=DB.getTests().filter(t=>t.teacherId===currentUser.id);
-      $('#teacherCount').textContent=mine.length;
-      const wrap=$('#teacherTests'); wrap.innerHTML='';
+      document.getElementById('teacherCount').textContent=mine.length;
+      const wrap=document.getElementById('teacherTests'); wrap.innerHTML='';
       if(mine.length===0) wrap.innerHTML='<div class="text-slate-400">لا توجد اختبارات.</div>';
       mine.forEach(t=>{
         const solved=DB.getResults().filter(r=>r.testId===t.id).length;
@@ -607,45 +611,28 @@
         wrap.appendChild(row);
       });
       buildProfileForm('#profileTeacher');
-      $('#motivation').classList.add('hidden');
+      document.getElementById('motivation').classList.add('hidden');
     }
 
     // ===== Messages =====
-    $('#sendMsgToAdmin').onclick = ()=>{
-      const content=$('#msgToAdmin').value.trim(); if(!content) return toast('اكتب الرسالة','warn');
+    document.getElementById('sendMsgToAdmin').onclick = ()=>{
+      const content=document.getElementById('msgToAdmin').value.trim(); if(!content) return toast('اكتب الرسالة','warn');
       const msgs=DB.getMsgs(); msgs.push({id:crypto.randomUUID(), from:currentUser.id, to:'admin', content, replies:[], createdAt:Date.now()});
-      DB.setMsgs(msgs); $('#msgToAdmin').value=''; toast('تم الإرسال');
+      DB.setMsgs(msgs); document.getElementById('msgToAdmin').value=''; toast('تم الإرسال');
     };
-    $('#tSendMsgToAdmin').onclick = ()=>{
-      const content=$('#tMsgToAdmin').value.trim(); if(!content) return toast('اكتب الرسالة','warn');
-      const msgs=DB.getMsgs(); msgs.push({id:crypto.randomUUID(), from:currentUser.id, to:'admin', content, replies:[], createdAt:Date.now()});
-      DB.setMsgs(msgs); $('#tMsgToAdmin').value=''; toast('تم الإرسال');
-    };
-    function loadStudentReplies(){
-      const msgs=DB.getMsgs().filter(m=>m.from===currentUser.id);
-      const wrap=$('#studentReplies'); wrap.innerHTML='';
-      msgs.forEach(m=>{
-        const last=(m.replies||[]).slice(-1)[0];
-        const el=document.createElement('div');
-        el.className='p-3 rounded-lg bg-white/5 border border-white/10';
-        el.innerHTML=`<div class="text-sm">${m.content}</div>
-                      <div class="text-xs text-slate-400 mt-1">${last?('رد المسؤول: '+last.content):'بانتظار رد المسؤول'}</div>`;
-        wrap.appendChild(el);
-      });
-    }
 
     // ===== Admin =====
     function showAdmin(){
       const users=DB.getUsers(), tests=DB.getTests();
-      $('#statsUsers').textContent=`${users.length} مستخدم`; $('#statsTests').textContent=`${tests.length} اختبار`;
+      document.getElementById('statsUsers').textContent=`${users.length} مستخدم`; document.getElementById('statsTests').textContent=`${tests.length} اختبار`;
       // users
-      const uWrap=$('#adminUsers'); uWrap.innerHTML='';
+      const uWrap=document.getElementById('adminUsers'); uWrap.innerHTML='';
       users.forEach(u=>{
         const row=document.createElement('div');
         row.className='p-3 rounded-lg bg-white/5 border border-white/10 flex items-center justify-between';
         row.innerHTML=`<div class="text-sm">
           <div class="font-bold">${u.name} <span class="badge text-[11px]">${roles[u.role]}</span></div>
-          <div class="text-xs text-slate-400">${u.email}${u.grade? ' • '+u.grade:''}${u.class?' • فصل '+u.class:''}</div>
+          <div class="text-xs text-slate-400">${u.email}${u.grade? ' • '+u.grade:''}${u.class?' • فصل '+u.class:''} • نقاط: ${u.points||0}</div>
         </div>
         <div>${u.role!=='admin'?'<button class="btn pill px-3 py-1 bg-red-500/20 border border-red-500/30">حذف</button>':'—'}</div>`;
         if(u.role!=='admin'){
@@ -660,7 +647,7 @@
         uWrap.appendChild(row);
       });
       // tests
-      const tWrap=$('#adminTests'); tWrap.innerHTML='';
+      const tWrap=document.getElementById('adminTests'); tWrap.innerHTML='';
       tests.forEach(t=>{
         const solved=DB.getResults().filter(r=>r.testId===t.id).length;
         const row=document.createElement('div');
@@ -678,7 +665,7 @@
       });
       // inbox
       const inbox=DB.getMsgs().sort((a,b)=>b.createdAt-a.createdAt);
-      const iWrap=$('#adminInbox'); iWrap.innerHTML='';
+      const iWrap=document.getElementById('adminInbox'); iWrap.innerHTML='';
       inbox.forEach(m=>{
         const sender=users.find(u=>u.id===m.from);
         const div=document.createElement('div');
@@ -703,16 +690,75 @@
         };
         iWrap.appendChild(div);
       });
-      buildProfileForm('#profileAdmin');
-      $('#motivation').classList.add('hidden');
+
+      // إعلان عام (تحميل/ربط)
+      const ann = DB.getAnn();
+      document.getElementById('announceInput').value = ann || '';
+    }
+
+    // ===== إعلان عام (عرض للجميع) =====
+    function loadAnnouncement(){
+      const msg = DB.getAnn();
+      const box = document.getElementById('announcement');
+      const txt = document.getElementById('announcementText');
+      if(msg && currentUser){
+        txt.textContent = msg;
+        box.classList.remove('hidden');
+      }else{
+        box.classList.add('hidden');
+      }
+      document.getElementById('closeAnnouncement').onclick = ()=> box.classList.add('hidden');
+    }
+    const btnSetAnn = document.getElementById('setAnnounce');
+    const btnClrAnn = document.getElementById('clearAnnounce');
+    if(btnSetAnn){
+      btnSetAnn.onclick = ()=>{
+        const v = document.getElementById('announceInput').value.trim();
+        DB.setAnn(v);
+        loadAnnouncement();
+        toast('تم نشر الإعلان');
+      };
+      btnClrAnn.onclick = ()=>{
+        DB.setAnn('');
+        loadAnnouncement();
+        toast('تم مسح الإعلان','warn');
+      };
+    }
+
+    // ===== Student replies =====
+    function loadStudentReplies(){
+      const msgs=DB.getMsgs().filter(m=>m.from===currentUser.id);
+      const wrap=document.getElementById('studentReplies'); wrap.innerHTML='';
+      msgs.forEach(m=>{
+        const last=(m.replies||[]).slice(-1)[0];
+        const el=document.createElement('div');
+        el.className='p-3 rounded-lg bg-white/5 border border-white/10';
+        el.innerHTML=`<div class="text-sm">${m.content}</div>
+                      <div class="text-xs text-slate-400 mt-1">${last?('رد المسؤول: '+last.content):'بانتظار رد المسؤول'}</div>`;
+        wrap.appendChild(el);
+      });
+    }
+
+    // ===== Router =====
+    function route(){
+      document.getElementById('studentDash').classList.add('hidden');
+      document.getElementById('teacherDash').classList.add('hidden');
+      document.getElementById('adminDash').classList.add('hidden');
+      document.getElementById('studentTabs').classList.add('hidden');
+
+      if(currentUser.role==='student'){ document.getElementById('studentDash').classList.remove('hidden'); showStudent(); }
+      if(currentUser.role==='teacher'){ document.getElementById('teacherDash').classList.remove('hidden'); showTeacher(); }
+      if(currentUser.role==='admin'){ document.getElementById('adminDash').classList.remove('hidden'); showAdmin(); }
+      loadAnnouncement();
+      updatePointsUI();
     }
 
     // ===== Take test modal =====
     let takeCurrent=null;
     function openTake(test){
       takeCurrent=test;
-      $('#takeTitle').textContent=`حل اختبار: ${test.title}`;
-      const wrap=$('#takeQuestions'); wrap.innerHTML='';
+      document.getElementById('takeTitle').textContent=`حل اختبار: ${test.title}`;
+      const wrap=document.getElementById('takeQuestions'); wrap.innerHTML='';
       test.questions.forEach((q,qi)=>{
         const box=document.createElement('div');
         box.className='p-3 rounded-xl bg-white/5 border border-white/10';
@@ -729,72 +775,41 @@
         });
         box.appendChild(grid); wrap.appendChild(box);
       });
-      $('#takeResult').textContent='';
-      $('#takeModal').classList.remove('hidden'); $('#takeModal').classList.add('flex');
+      document.getElementById('takeResult').textContent='';
+      document.getElementById('takeModal').classList.remove('hidden'); document.getElementById('takeModal').classList.add('flex');
     }
-    function closeTake(){ $('#takeModal').classList.add('hidden'); $('#takeModal').classList.remove('flex'); takeCurrent=null; }
+    function closeTake(){ document.getElementById('takeModal').classList.add('hidden'); document.getElementById('takeModal').classList.remove('flex'); takeCurrent=null; }
     window.closeTake=closeTake;
 
-    $('#submitAnswers').onclick=()=>{
+    document.getElementById('submitAnswers').onclick=()=>{
       if(!takeCurrent) return;
       let correct=0;
       takeCurrent.questions.forEach((q,qi)=>{
         const sel=document.querySelector(`input[name="q${qi}"]:checked`);
         if(sel && parseInt(sel.value)===q.correctIndex) correct++;
       });
-      $('#takeResult').textContent=`نتيجتك: ${correct} / ${takeCurrent.questions.length}`;
+      document.getElementById('takeResult').textContent=`نتيجتك: ${correct} / ${takeCurrent.questions.length}`;
       const res=DB.getResults();
       if(!isSolved(currentUser.id, takeCurrent.id)){
         res.push({id:crypto.randomUUID(), userId:currentUser.id, testId:takeCurrent.id, score:correct, total:takeCurrent.questions.length, at:Date.now()});
         DB.setResults(res);
       }
+      // بعد التسليم: حدّث النقاط (10 نقاط لكل اختبار)
+      recalcPoints(currentUser.id);
+      updatePointsUI();
+
       setTimeout(()=>{ closeTake(); if(currentUser.role==='student') showStudent(); }, 800);
       updateProgress();
     };
 
-    // ===== Tabs handlers =====
-    $$('#studentTabs .tab').forEach(b=>{
-      b.addEventListener('click', ()=> setStudentTab(b.dataset.tab));
-    });
-
-    // ===== Countdown =====
-    let countdownTimer=null;
-    function updateCountdown(){
-      if(currentUser?.role!=='student'){ return; }
-      const el=$('#countdown');
-      if(countdownTimer) clearInterval(countdownTimer);
-      const ex = currentUser.examAt ? new Date(currentUser.examAt).getTime() : null;
-      if(!ex){ el.textContent='— : — : — : —'; return; }
-      countdownTimer = setInterval(()=>{
-        const now = Date.now();
-        const diff = ex - now;
-        if(diff<=0){ el.textContent='انطلق! بالتوفيق 🌟'; clearInterval(countdownTimer); return; }
-        const d=Math.floor(diff/86400000);
-        const h=Math.floor((diff%86400000)/3600000);
-        const m=Math.floor((diff%3600000)/60000);
-        const s=Math.floor((diff%60000)/1000);
-        el.textContent = `${String(d).padStart(2,'0')} : ${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
-      }, 1000);
-    }
-
-    // ===== Router =====
-    function route(){
-      $('#studentDash').classList.add('hidden');
-      $('#teacherDash').classList.add('hidden');
-      $('#adminDash').classList.add('hidden');
-      $('#studentTabs').classList.add('hidden');
-
-      if(currentUser.role==='student'){ $('#studentDash').classList.remove('hidden'); showStudent(); }
-      if(currentUser.role==='teacher'){ $('#teacherDash').classList.remove('hidden'); showTeacher(); }
-      if(currentUser.role==='admin'){ $('#adminDash').classList.remove('hidden'); showAdmin(); }
-    }
-
     // ===== Init =====
     if(currentUser){
-      $('#authSection').classList.add('hidden');
-      $('#appSection').classList.remove('hidden');
-      $('#btnLogout').classList.remove('hidden'); $('#whoami').classList.remove('hidden');
-      $('#whoami').textContent=`${roles[currentUser.role]} — ${currentUser.name}`;
+      document.getElementById('authSection').classList.add('hidden');
+      document.getElementById('appSection').classList.remove('hidden');
+      document.getElementById('btnLogout').classList.remove('hidden');
+      document.getElementById('whoami').classList.remove('hidden');
+      document.getElementById('pointsBadge').classList.remove('hidden');
+      document.getElementById('whoami').textContent=`${roles[currentUser.role]} — ${currentUser.name}`;
       route();
     }
     rotateMotivation();
