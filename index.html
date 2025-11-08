@@ -9,8 +9,7 @@
   <style>
     :root{
       --bg:#0b1220; --bg2:#0f1424; --card:#0c1222; --muted:#94a3b8;
-      --primary:#1d4ed8; /* أزرق ملكي */
-      --accent:#f59e0b;  /* ذهبي */
+      --primary:#1d4ed8; --accent:#f59e0b;
       --ok:#16a34a; --warn:#f59e0b; --err:#ef4444;
     }
     *{box-sizing:border-box}
@@ -43,6 +42,7 @@
     .tab{ cursor:pointer; padding:.5rem 1rem; border-radius:999px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04) }
     .tab.active{ background:rgba(29,78,216,.2); border-color: rgba(29,78,216,.5) }
     .img-thumb{max-height:120px; border-radius:12px; border:1px solid rgba(255,255,255,.1)}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
   </style>
 </head>
 <body>
@@ -59,6 +59,7 @@
       </div>
       <nav class="flex items-center gap-2">
         <span id="whoami" class="hidden text-sm text-slate-300 pill px-3 py-1"></span>
+        <span id="streakBadge" class="hidden text-sm pill px-3 py-1 border border-emerald-400/40 text-emerald-200">🔥 Streak: 0</span>
         <span id="pointsBadge" class="hidden text-sm pill px-3 py-1 border border-amber-400/40 text-amber-200">نقاط: 0</span>
         <button id="btnLogout" class="hidden btn px-4 py-2 pill hover:bg-white/10">تسجيل الخروج</button>
       </nav>
@@ -66,7 +67,7 @@
   </header>
 
   <main class="px-6 md:px-12 pb-16">
-    <!-- ======= إعلان عام للجميع (يتحكم به المسؤول) ======= -->
+    <!-- إعلان عام -->
     <div id="announcement" class="hidden max-w-7xl mx-auto mb-4 p-4 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between">
       <span id="announcementText" class="text-sm text-amber-200"></span>
       <button id="closeAnnouncement" class="text-xs text-slate-400 hover:text-white">إغلاق</button>
@@ -82,7 +83,6 @@
             <input id="loginEmail" class="input" placeholder="البريد الإلكتروني" type="email">
             <input id="loginPassword" class="input" placeholder="كلمة المرور" type="password">
             <button id="loginBtn" class="btn w-full py-2.5 rounded-xl bg-gradient-to-l from-blue-600 to-amber-500">دخول</button>
-            <!-- تم إخفاء بيانات المسؤول من الصفحة الرئيسية حسب طلبك -->
           </div>
         </div>
 
@@ -106,7 +106,8 @@
               </select>
               <select id="regClass" class="input">
                 <option value="" disabled selected>الفصل</option>
-                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+                <option value="1">1</option><option value="2">2</option>
+                <option value="3">3</option><option value="4">4</option>
               </select>
             </div>
             <button id="registerBtn" class="btn w-full py-2.5 rounded-xl bg-gradient-to-l from-blue-600 to-amber-500">إنشاء الحساب</button>
@@ -117,8 +118,8 @@
 
     <!-- App -->
     <section id="appSection" class="hidden max-w-7xl mx-auto">
-      <!-- Motivation strip -->
-      <div id="motivation" class="card p-5 mb-6 flex flex-col md:flex-row items-center md:items-stretch gap-4">
+      <!-- Motivation / Progress / Leaderboard shortcut -->
+      <div id="motivation" class="card p-5 mb-6 grid md:grid-cols-3 gap-4">
         <div class="flex-1">
           <div class="text-sm text-amber-300 mb-1">نسبة التقدم</div>
           <div class="bar"><div id="progressBar" style="width:0%"></div></div>
@@ -127,7 +128,11 @@
         <div class="flex items-center gap-2">
           <span id="badge1" class="hidden badge">🎯 مبتدئ</span>
           <span id="badge2" class="hidden badge">🔥 متقدم</span>
-          <span id="badge3" class="hidden badge">🏆 بطل المدرسة</span>
+          <span id="badge3" class="hidden badge">🏆 أسطورة</span>
+        </div>
+        <div class="flex items-center justify-end gap-2">
+          <a id="gotoAchievements" class="pill px-3 py-2 text-sm hover:bg-white/10 cursor-pointer">إنجازاتي</a>
+          <a id="gotoLeaderboard" class="pill px-3 py-2 text-sm hover:bg-white/10 cursor-pointer">لوحة الصدارة</a>
         </div>
       </div>
 
@@ -137,19 +142,20 @@
         <button class="tab" data-tab="placement">تحديد المستوى</button>
         <button class="tab" data-tab="verbal">التجميعات — لفظي</button>
         <button class="tab" data-tab="quant">التجميعات — كمي</button>
+        <button class="tab" data-tab="achievements">إنجازاتي</button>
+        <button class="tab" data-tab="leaderboard">لوحة الصدارة</button>
       </div>
 
       <!-- Student dashboard -->
       <div id="studentDash" class="hidden">
         <div class="grid grid-cols-12 gap-4">
-          <!-- (حذفنا بطاقة العداد بالكامل) -->
-
           <div class="card p-5 col-span-12">
             <div class="flex items-center justify-between mb-3">
               <h3 id="testsTitle" class="text-xl font-bold">الاختبارات المتاحة</h3>
               <div class="flex items-center gap-2">
                 <span class="badge" id="testsCount">0 اختبار</span>
                 <span class="badge" id="studentPoints">نقاطك: 0</span>
+                <span class="badge" id="streakMini">🔥 Streak: 0</span>
               </div>
             </div>
             <div id="testsList" class="space-y-3"></div>
@@ -170,9 +176,19 @@
             </div>
           </div>
 
-          <div class="card p-5 col-span-12">
-            <h3 class="text-xl font-bold mb-3">تعديل الملف الشخصي</h3>
-            <div id="profileStudent" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+          <!-- إنجازاتي -->
+          <div class="card p-5 col-span-12" id="achievementsCard" style="display:none">
+            <h3 class="text-xl font-bold mb-3">إنجازاتي</h3>
+            <div id="achievementsWrap" class="grid md:grid-cols-4 gap-3"></div>
+          </div>
+
+          <!-- لوحة الصدارة -->
+          <div class="card p-5 col-span-12" id="leaderboardCard" style="display:none">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-xl font-bold">لوحة الصدارة</h3>
+              <span class="text-xs text-slate-400">تصنيف: مبتدئ / متقدم / أسطورة</span>
+            </div>
+            <div id="leaderboardWrap" class="space-y-2"></div>
           </div>
         </div>
       </div>
@@ -213,6 +229,11 @@
           </div>
 
           <div class="card p-5 col-span-12">
+            <h4 class="text-lg font-bold mb-3">استفسارات الطلاب</h4>
+            <div id="teacherQuestions" class="space-y-2 text-sm"></div>
+          </div>
+
+          <div class="card p-5 col-span-12">
             <h4 class="text-lg font-bold mb-3">تعديل الملف الشخصي</h4>
             <div id="profileTeacher" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
           </div>
@@ -235,7 +256,7 @@
             </div>
           </div>
 
-          <!-- إعلان عام (ميزة للمسؤول) -->
+          <!-- إعلان عام -->
           <div class="card p-5 col-span-12 md:col-span-6">
             <h4 class="text-lg font-bold mb-3">إعلان عام</h4>
             <textarea id="announceInput" class="input mb-2" placeholder="اكتب إعلان يظهر للجميع (مثال: مواعيد اختبار، تنبيهات...)"></textarea>
@@ -256,10 +277,35 @@
           </div>
 
           <div class="card p-5 col-span-12 md:col-span-6">
-            <h4 class="text-lg font-bold mb-3">جميع الاختبارات</h4>
+            <h4 class="text-lg font-bold mb-3 flex items-center gap-2">جميع الاختبارات <span class="text-[11px] text-slate-400">(اضغط “نتائج” لعرض الدرجات وتصديرها)</span></h4>
             <div id="adminTests" class="space-y-3"></div>
           </div>
         </div>
+      </div>
+
+      <!-- Teacher Results page -->
+      <div id="teacherResults" class="hidden max-w-7xl mx-auto">
+        <div class="card p-5 mb-4 flex items-center justify-between">
+          <h3 class="text-xl font-bold">نتائج هذا الاختبار</h3>
+          <div class="flex items-center gap-2">
+            <button id="exportTeacherCSV" class="btn pill px-3 py-1 bg-white/10 hover:bg-white/20">⬇️ تنزيل النتائج (CSV)</button>
+            <button id="backToTeacher" class="btn pill px-3 py-1 bg-white/10 hover:bg-white/20">رجوع</button>
+          </div>
+        </div>
+        <div id="teacherResultsTable" class="space-y-2"></div>
+      </div>
+
+      <!-- Admin Results page -->
+      <div id="adminResults" class="hidden max-w-7xl mx-auto">
+        <div class="card p-5 mb-4 flex items-center justify-between">
+          <h3 class="text-xl font-bold">نتائج الاختبار</h3>
+          <div class="flex items-center gap-2">
+            <input id="adminSearchStudent" class="input w-44" placeholder="بحث...">
+            <button id="exportAdminCSV" class="btn pill px-3 py-1 bg-white/10 hover:bg-white/20">⬇️ تنزيل النتائج (CSV)</button>
+            <button id="backToAdmin" class="btn pill px-3 py-1 bg-white/10 hover:bg-white/20">رجوع</button>
+          </div>
+        </div>
+        <div id="adminResultsTable" class="space-y-2"></div>
       </div>
     </section>
   </main>
@@ -273,6 +319,7 @@
       </div>
       <div id="takeQuestions" class="space-y-3 max-h-[60vh] overflow-y-auto pr-2"></div>
       <button id="submitAnswers" class="btn mt-3 w-full py-2 pill bg-gradient-to-l from-blue-600 to-amber-500">تسليم</button>
+      <div id="analysisBox" class="hidden mt-3 p-3 rounded-xl bg-white/5 border border-white/10"></div>
       <p id="takeResult" class="mt-2 text-center text-slate-200"></p>
     </div>
   </div>
@@ -283,15 +330,16 @@
       users: 'mq_users',
       tests: 'mq_tests',
       msgs: 'mq_msgs',
-      results: 'mq_results', // student test results
+      results: 'mq_results',       // {userId, testId, score, total, at, perQ:[0/1], category}
+      inquiries: 'mq_inquiries',   // {id, fromUserId, toTeacherId, testId, qIndex, text, replies[], at}
       ANN_KEY: 'mq_announce',
       seed(){
         const u = JSON.parse(localStorage.getItem(this.users)||'[]');
         if(!u.find(x=>x.email==='admin@gmail.com')){
-          u.push({id:crypto.randomUUID(), role:'admin', name:'مدير النظام', email:'admin@gmail.com', password:'admin123456', points:0});
+          u.push({id:crypto.randomUUID(), role:'admin', name:'مدير النظام', email:'admin@gmail.com', password:'admin123456', points:0, streak:0});
           localStorage.setItem(this.users, JSON.stringify(u));
         }
-        for(const k of [this.tests,this.msgs,this.results]) if(!localStorage.getItem(k)) localStorage.setItem(k,'[]');
+        for(const k of [this.tests,this.msgs,this.results,this.inquiries]) if(!localStorage.getItem(k)) localStorage.setItem(k,'[]');
 
         // Seed sample tests (once)
         const t = JSON.parse(localStorage.getItem(this.tests)||'[]');
@@ -301,7 +349,8 @@
             title, category:cat, questions:[
               {text:'اختر المرادف الصحيح لكلمة "جليل"', choices:['عظيم','قليل','سريع','قديم'], correctIndex:0},
               {text:'قيمة 3x+2 عند x=4 هي؟', choices:['10','12','14','20'], correctIndex:2},
-            ], createdAt:Date.now()
+              {text:'ناتج 5×6؟', choices:['30','20','36','26'], correctIndex:0},
+            ], createdAt:Date.now(), teacherId:null, teacherName:'—'
           });
           t.push(sample('تحديد مستوى — تجربة', 'placement'));
           t.push(sample('تجميعات لفظي — دفعة 1', 'verbal'));
@@ -317,6 +366,8 @@
       setMsgs(v){ localStorage.setItem(this.msgs, JSON.stringify(v)); },
       getResults(){ return JSON.parse(localStorage.getItem(this.results)||'[]'); },
       setResults(v){ localStorage.setItem(this.results, JSON.stringify(v)); },
+      getInquiries(){ return JSON.parse(localStorage.getItem(this.inquiries)||'[]'); },
+      setInquiries(v){ localStorage.setItem(this.inquiries, JSON.stringify(v)); },
       getAnn(){ return localStorage.getItem(this.ANN_KEY)||''; },
       setAnn(msg){ localStorage.setItem(this.ANN_KEY,msg||''); }
     };
@@ -337,6 +388,14 @@
     const logout = ()=>{ currentUser=null; saveSession(); location.reload(); };
     $('#btnLogout').onclick = logout;
 
+    // ===== Helpers =====
+    const todayKey = ()=> new Date().toISOString().slice(0,10); // YYYY-MM-DD
+    function sameDay(d1, d2){ return d1 && d2 && d1.slice(0,10) === d2.slice(0,10); }
+    function yesterKey(){
+      const d = new Date(); d.setDate(d.getDate()-1);
+      return d.toISOString().slice(0,10);
+    }
+
     // ===== Auth =====
     const setRoleButtons = (r)=>{
       $('#roleStudent').classList.toggle('active', r==='student');
@@ -354,7 +413,7 @@
       if(!name||!email||!password) return toast('أكمل الحقول','warn');
       const users=DB.getUsers();
       if(users.find(u=>u.email===email)) return toast('البريد مستخدم','err');
-      const newUser={id:crypto.randomUUID(), role:regRole, name,email,password, points:0};
+      const newUser={id:crypto.randomUUID(), role:regRole, name,email,password, points:0, streak:0, lastActive:null};
       if(regRole==='student'){
         const g=$('#regGrade').value, c=$('#regClass').value;
         if(!g||!c) return toast('اختر الصف والفصل','warn');
@@ -370,12 +429,15 @@
       const password=$('#loginPassword').value;
       const user=DB.getUsers().find(u=>u.email===email && u.password===password);
       if(!user) return toast('بيانات الدخول غير صحيحة','err');
-      currentUser=user; saveSession();
+      currentUser=user; // streak تحديث لاحقاً
+      updateStreakOnLogin();
+      saveSession();
       $('#authSection').classList.add('hidden');
       $('#appSection').classList.remove('hidden');
       $('#btnLogout').classList.remove('hidden'); $('#whoami').classList.remove('hidden');
       $('#whoami').textContent=`${roles[user.role]} — ${user.name}`;
       $('#pointsBadge').classList.remove('hidden');
+      $('#streakBadge').classList.remove('hidden');
       route();
       toast('مرحباً بك');
     };
@@ -383,7 +445,6 @@
     // ===== Profile (مشترك) =====
     function buildProfileForm(containerId){
       const c=$(containerId); c.innerHTML='';
-      const isStudent = currentUser.role==='student';
       const base=`
         <input id="pName" class="input" placeholder="الاسم" value="${currentUser.name||''}">
         <input id="pEmail" class="input" placeholder="البريد" value="${currentUser.email||''}">
@@ -401,8 +462,7 @@
         const np=$('#pPass').value; if(np) users[idx].password=np;
         DB.setUsers(users); currentUser=users[idx]; saveSession();
         $('#whoami').textContent=`${roles[currentUser.role]} — ${currentUser.name}`;
-        toast('تم الحفظ');
-        updatePointsUI();
+        toast('تم الحفظ'); updateBadgesAndBars(); updatePointsUI();
       };
       $('#pDelete').onclick=()=>{
         if(!confirm('هل أنت متأكد من حذف الحساب؟')) return;
@@ -410,8 +470,32 @@
         DB.setUsers(users);
         DB.setMsgs(DB.getMsgs().filter(m=>m.from!==currentUser.id));
         DB.setResults(DB.getResults().filter(r=>r.userId!==currentUser.id));
+        DB.setInquiries(DB.getInquiries().filter(q=>q.fromUserId!==currentUser.id));
         toast('تم حذف الحساب','warn'); logout();
       };
+    }
+
+    // ===== Streak =====
+    function updateStreakOnLogin(){
+      const users=DB.getUsers();
+      const idx=users.findIndex(u=>u.id===currentUser.id);
+      const last = users[idx].lastActive || null;
+      const today = todayKey();
+      if(sameDay(last, today)){
+        // لا شيء
+      }else if(last === yesterKey()){
+        users[idx].streak = (users[idx].streak||0) + 1;
+      }else{
+        users[idx].streak = 1;
+      }
+      users[idx].lastActive = today;
+      DB.setUsers(users);
+      currentUser = users[idx];
+    }
+    function refreshStreakUI(){
+      const s = currentUser.streak || 0;
+      const sb = $('#streakBadge'); if(sb){ sb.textContent = '🔥 Streak: '+s; }
+      const sm = $('#streakMini'); if(sm){ sm.textContent = '🔥 Streak: '+s; }
     }
 
     // ===== Results / Points =====
@@ -436,7 +520,7 @@
       if(sp){ sp.textContent = 'نقاطك: '+pts; }
     }
 
-    // ===== Motivation =====
+    // ===== Motivation / Achievements / Leaderboard =====
     const phrases = [
       'استمر، هدفنا إتقان القدرات 👑',
       'كل سؤال يقوّي عضلتك الذهنية 💪',
@@ -447,27 +531,73 @@
       const el = document.getElementById('motivationText'); let i=0;
       setInterval(()=>{ i=(i+1)%phrases.length; el.textContent=phrases[i]; }, 4000);
     }
-
-    function updateProgress(){
+    function updateBadgesAndBars(){
       if(currentUser.role!=='student') { document.getElementById('motivation').classList.add('hidden'); return; }
       document.getElementById('motivation').classList.remove('hidden');
       const total=DB.getTests().length;
       const solved=solvedByUser(currentUser.id).length;
       const pct = total? Math.round((solved/total)*100):0;
-      document.getElementById('progressBar').style.width=pct+'%';
-      document.getElementById('progressText').textContent=pct+'%';
-      document.getElementById('badge1').classList.toggle('hidden', solved<1);
-      document.getElementById('badge2').classList.toggle('hidden', solved<5);
-      document.getElementById('badge3').classList.toggle('hidden', solved<10);
-      // نقاط
-      recalcPoints(currentUser.id);
-      updatePointsUI();
+      $('#progressBar').style.width=pct+'%';
+      $('#progressText').textContent=pct+'%';
+      $('#badge1').classList.toggle('hidden', solved<1);
+      $('#badge2').classList.toggle('hidden', solved<5);
+      $('#badge3').classList.toggle('hidden', solved<10);
+    }
+
+    function buildAchievements(){
+      const wrap = $('#achievementsWrap'); wrap.innerHTML='';
+      const solved = solvedByUser(currentUser.id);
+      const totalSolved = solved.length;
+      const mastered = solved.reduce((acc,r)=> acc + (r.perQ? r.perQ.filter(x=>x===1).length : 0), 0);
+      const points = currentUser.points||0;
+      const badges = [
+        totalSolved>=1 ? '🎯 مبتدئ' : null,
+        totalSolved>=5 ? '🔥 متقدم' : null,
+        totalSolved>=10? '🏆 أسطورة' : null
+      ].filter(Boolean);
+
+      const card = (title,val,sub='')=>`<div class="p-4 rounded-xl bg-white/5 border border-white/10">
+        <div class="text-slate-400 text-sm">${title}</div>
+        <div class="text-2xl font-extrabold mt-1">${val}</div>
+        ${sub?`<div class="text-xs text-slate-400 mt-1">${sub}</div>`:''}
+      </div>`;
+
+      wrap.insertAdjacentHTML('beforeend', card('اختبارات محلولة', totalSolved));
+      wrap.insertAdjacentHTML('beforeend', card('أسئلة متقنة', mastered));
+      wrap.insertAdjacentHTML('beforeend', card('النقاط', points));
+      wrap.insertAdjacentHTML('beforeend', card('الأوسمة', badges.join(' • ') || '—'));
+    }
+
+    function buildLeaderboard(){
+      const wrap = $('#leaderboardWrap'); wrap.innerHTML='';
+      const users = DB.getUsers().filter(u=>u.role==='student').sort((a,b)=>(b.points||0)-(a.points||0));
+      users.forEach((u,i)=>{
+        let tier='مبتدئ'; if((u.points||0)>=50) tier='متقدم'; if((u.points||0)>=100) tier='أسطورة';
+        const row = document.createElement('div');
+        row.className='p-3 rounded-lg bg-white/5 border border-white/10 flex items-center justify-between';
+        row.innerHTML = `<div class="text-sm">
+           <span class="mono text-slate-400">#${i+1}</span> <span class="font-bold">${u.name}</span> — <span class="text-xs text-slate-400">${u.grade||''} ${u.class?('• فصل '+u.class):''}</span>
+         </div>
+         <div class="flex items-center gap-3">
+           <span class="badge">${tier}</span>
+           <span class="text-amber-200">نقاط: ${u.points||0}</span>
+         </div>`;
+        wrap.appendChild(row);
+      });
     }
 
     // ===== Student =====
+    function labelCat(cat){
+      return cat==='placement'?'تحديد المستوى':cat==='verbal'?'تجميعات لفظي':cat==='quant'?'تجميعات كمي':'—';
+    }
     function setStudentTab(tab){
       $$('#studentTabs .tab').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
       const all=DB.getTests();
+      if(tab==='achievements'){ $('#achievementsCard').style.display=''; $('#leaderboardCard').style.display='none'; buildAchievements(); return; }
+      if(tab==='leaderboard'){ $('#leaderboardCard').style.display=''; $('#achievementsCard').style.display='none'; buildLeaderboard(); return; }
+      $('#achievementsCard').style.display='none';
+      $('#leaderboardCard').style.display='none';
+
       let list=all;
       if(tab==='placement') list=all.filter(t=>t.category==='placement');
       if(tab==='verbal') list=all.filter(t=>t.category==='verbal');
@@ -475,12 +605,12 @@
 
       // available tests = not solved
       const available=list.filter(t=>!isSolved(currentUser.id,t.id));
-      document.getElementById('testsTitle').textContent =
+      $('#testsTitle').textContent =
         tab==='all' ? 'الاختبارات المتاحة' :
         tab==='placement' ? 'اختبارات تحديد المستوى' :
         tab==='verbal' ? 'التجميعات — لفظي' : 'التجميعات — كمي';
+      $('#testsCount').textContent = `${available.length} اختبار`;
 
-      document.getElementById('testsCount').textContent = `${available.length} اختبار`;
       const wrap=document.getElementById('testsList'); wrap.innerHTML='';
       available.forEach(t=>{
         const row=document.createElement('div');
@@ -504,26 +634,22 @@
         const el=document.createElement('div');
         el.className='p-3 rounded-lg bg-white/5 border border-white/10 flex items-center justify-between';
         el.innerHTML=`<div class="text-sm"><span class="font-bold">${s.title}</span> <span class="text-xs text-slate-400">— ${labelCat(s.category)}</span></div>
-                      <div class="text-xs text-amber-200">نتيجتك: ${s.score}/${s.total}</div>`;
+                      <div class="text-xs text-emerald-300">نتيجتك: ${s.score}/${s.total}</div>`;
         sWrap.appendChild(el);
       });
 
       // replies + profile + progress
       loadStudentReplies();
       buildProfileForm('#profileStudent');
-      updateProgress();
+      updateBadgesAndBars();
+      refreshStreakUI();
       document.getElementById('studentTabs').classList.remove('hidden');
     }
+    function showStudent(){ setStudentTab('all'); }
+    $('#gotoAchievements').onclick = ()=> setStudentTab('achievements');
+    $('#gotoLeaderboard').onclick = ()=> setStudentTab('leaderboard');
 
-    function labelCat(cat){
-      return cat==='placement'?'تحديد المستوى':cat==='verbal'?'تجميعات لفظي':cat==='quant'?'تجميعات كمي':'—';
-    }
-
-    function showStudent(){
-      setStudentTab('all');
-    }
-
-    // ===== Teacher (المعلم ما زال يضيف اختبارات - إذا تبغى نوقفها قل لي) =====
+    // ===== Teacher =====
     let qCount=0;
     function addQuestionUI(){
       const idx=++qCount;
@@ -587,8 +713,8 @@
 
     function showTeacher(){
       const mine=DB.getTests().filter(t=>t.teacherId===currentUser.id);
-      document.getElementById('teacherCount').textContent=mine.length;
-      const wrap=document.getElementById('teacherTests'); wrap.innerHTML='';
+      $('#teacherCount').textContent=mine.length;
+      const wrap=$('#teacherTests'); wrap.innerHTML='';
       if(mine.length===0) wrap.innerHTML='<div class="text-slate-400">لا توجد اختبارات.</div>';
       mine.forEach(t=>{
         const solved=DB.getResults().filter(r=>r.testId===t.id).length;
@@ -599,9 +725,11 @@
             <div class="text-xs text-slate-400">نوع: ${labelCat(t.category)} • أسئلة: ${t.questions.length} • حلّه: ${solved} طالب</div>
           </div>
           <div class="flex gap-2">
+            <button class="btn pill px-3 py-1 bg-white/10 hover:bg-white/20" data-res>نتائج</button>
             <button class="btn pill px-3 py-1 bg-red-500/20 border border-red-500/30" data-del>حذف</button>
           </div>
         </div>`;
+        row.querySelector('[data-res]').onclick=()=> openTeacherResults(t.id);
         row.querySelector('[data-del]').onclick=()=>{
           if(!confirm('حذف الاختبار؟')) return;
           DB.setTests(DB.getTests().filter(x=>x.id!==t.id));
@@ -610,29 +738,58 @@
         };
         wrap.appendChild(row);
       });
+      // استفسارات الطلاب الموجهة لهذا المعلم
+      buildTeacherInquiries();
       buildProfileForm('#profileTeacher');
       document.getElementById('motivation').classList.add('hidden');
     }
 
-    // ===== Messages =====
-    document.getElementById('sendMsgToAdmin').onclick = ()=>{
-      const content=document.getElementById('msgToAdmin').value.trim(); if(!content) return toast('اكتب الرسالة','warn');
-      const msgs=DB.getMsgs(); msgs.push({id:crypto.randomUUID(), from:currentUser.id, to:'admin', content, replies:[], createdAt:Date.now()});
-      DB.setMsgs(msgs); document.getElementById('msgToAdmin').value=''; toast('تم الإرسال');
-    };
+    function buildTeacherInquiries(){
+      const wrap = $('#teacherQuestions'); wrap.innerHTML='';
+      const qs = DB.getInquiries().filter(q=>q.toTeacherId===currentUser.id).sort((a,b)=>b.at-a.at);
+      const users = DB.getUsers();
+      const tests = DB.getTests();
+      if(qs.length===0){ wrap.innerHTML = '<div class="text-slate-400">لا توجد استفسارات.</div>'; return; }
+      qs.forEach(q=>{
+        const stu = users.find(u=>u.id===q.fromUserId);
+        const test = tests.find(t=>t.id===q.testId);
+        const div=document.createElement('div');
+        div.className='p-3 rounded-lg bg-white/5 border border-white/10';
+        div.innerHTML = `
+          <div class="text-sm">
+            <div class="font-bold">${stu?stu.name:'طالب'} <span class="text-xs text-slate-400">سؤال ${q.qIndex+1} — ${test?test.title:'اختبار'}</span></div>
+            <div class="mt-1">${q.text}</div>
+            ${(q.replies||[]).map(r=>`<div class="text-xs text-emerald-300 mt-1">رد: ${r.content}</div>`).join('')}
+          </div>
+          <div class="mt-2 flex gap-2">
+            <input class="input flex-1" placeholder="اكتب الرد..." />
+            <button class="btn pill px-3 py-1 bg-white/10 hover:bg-white/20">إرسال</button>
+          </div>
+        `;
+        const input = div.querySelector('input');
+        div.querySelector('button').onclick = ()=>{
+          const t = input.value.trim(); if(!t) return toast('اكتب الرد','warn');
+          q.replies = q.replies||[]; q.replies.push({content:t, at:Date.now()});
+          const rest = DB.getInquiries().map(x=>x.id===q.id?q:x);
+          DB.setInquiries(rest); toast('تم الإرسال'); buildTeacherInquiries();
+        };
+        wrap.appendChild(div);
+      });
+    }
 
     // ===== Admin =====
     function showAdmin(){
       const users=DB.getUsers(), tests=DB.getTests();
-      document.getElementById('statsUsers').textContent=`${users.length} مستخدم`; document.getElementById('statsTests').textContent=`${tests.length} اختبار`;
+      $('#statsUsers').textContent=`${users.length} مستخدم`; $('#statsTests').textContent=`${tests.length} اختبار`;
+
       // users
-      const uWrap=document.getElementById('adminUsers'); uWrap.innerHTML='';
+      const uWrap=$('#adminUsers'); uWrap.innerHTML='';
       users.forEach(u=>{
         const row=document.createElement('div');
         row.className='p-3 rounded-lg bg-white/5 border border-white/10 flex items-center justify-between';
         row.innerHTML=`<div class="text-sm">
           <div class="font-bold">${u.name} <span class="badge text-[11px]">${roles[u.role]}</span></div>
-          <div class="text-xs text-slate-400">${u.email}${u.grade? ' • '+u.grade:''}${u.class?' • فصل '+u.class:''} • نقاط: ${u.points||0}</div>
+          <div class="text-xs text-slate-400">${u.email}${u.grade? ' • '+u.grade:''}${u.class?' • فصل '+u.class:''} • نقاط: ${u.points||0} • Streak: ${u.streak||0}</div>
         </div>
         <div>${u.role!=='admin'?'<button class="btn pill px-3 py-1 bg-red-500/20 border border-red-500/30">حذف</button>':'—'}</div>`;
         if(u.role!=='admin'){
@@ -641,21 +798,27 @@
             DB.setUsers(users.filter(x=>x.id!==u.id));
             DB.setMsgs(DB.getMsgs().filter(m=>m.from!==u.id));
             DB.setResults(DB.getResults().filter(r=>r.userId!==u.id));
+            DB.setInquiries(DB.getInquiries().filter(q=>q.fromUserId!==u.id));
             toast('تم حذف المستخدم','warn'); showAdmin();
           };
         }
         uWrap.appendChild(row);
       });
+
       // tests
-      const tWrap=document.getElementById('adminTests'); tWrap.innerHTML='';
+      const tWrap=$('#adminTests'); tWrap.innerHTML='';
       tests.forEach(t=>{
         const solved=DB.getResults().filter(r=>r.testId===t.id).length;
         const row=document.createElement('div');
-        row.className='p-3 rounded-lg bg-white/5 border border-white/10 flex items-center justify-between';
+        row.className='p-3 rounded-lg bg-white/5 border border-white/10 flex items-center justify-between gap-2';
         row.innerHTML=`<div class="text-sm"><div class="font-bold">${t.title}</div>
           <div class="text-xs text-slate-400">نوع: ${labelCat(t.category)} • المعلم: ${t.teacherName||'—'} • أسئلة: ${t.questions.length} • تم حله: ${solved}</div></div>
-          <button class="btn pill px-3 py-1 bg-red-500/20 border border-red-500/30">حذف</button>`;
-        row.querySelector('button').onclick=()=>{
+          <div class="flex gap-2">
+            <button class="btn pill px-3 py-1 bg-white/10 hover:bg-white/20" data-res>نتائج</button>
+            <button class="btn pill px-3 py-1 bg-red-500/20 border border-red-500/30" data-del>حذف</button>
+          </div>`;
+        row.querySelector('[data-res]').onclick=()=> openAdminResults(t.id);
+        row.querySelector('[data-del]').onclick=()=>{
           if(!confirm('حذف الاختبار؟')) return;
           DB.setTests(tests.filter(x=>x.id!==t.id));
           DB.setResults(DB.getResults().filter(r=>r.testId!==t.id));
@@ -663,9 +826,10 @@
         };
         tWrap.appendChild(row);
       });
-      // inbox
+
+      // inbox (مسؤول)
       const inbox=DB.getMsgs().sort((a,b)=>b.createdAt-a.createdAt);
-      const iWrap=document.getElementById('adminInbox'); iWrap.innerHTML='';
+      const iWrap=$('#adminInbox'); iWrap.innerHTML='';
       inbox.forEach(m=>{
         const sender=users.find(u=>u.id===m.from);
         const div=document.createElement('div');
@@ -677,7 +841,7 @@
             <div class="text-slate-200 mt-1">${m.content}</div>
             ${last?`<div class="text-xs text-emerald-300 mt-1">آخر رد: ${last.content}</div>`:''}
           </div>
-          <div class="min-w-[220px]">
+          <div class="min-w-[240px]">
             <textarea rows="2" placeholder="اكتب الرد..." class="input mb-2"></textarea>
             <button class="btn pill px-3 py-1 bg-white/10 hover:bg-white/20 w-full">إرسال الرد</button>
           </div>
@@ -691,44 +855,30 @@
         iWrap.appendChild(div);
       });
 
-      // إعلان عام (تحميل/ربط)
+      // إعلان عام تحميل
       const ann = DB.getAnn();
-      document.getElementById('announceInput').value = ann || '';
+      $('#announceInput').value = ann || '';
     }
 
-    // ===== إعلان عام (عرض للجميع) =====
+    // إعلان عام (عرض)
     function loadAnnouncement(){
       const msg = DB.getAnn();
-      const box = document.getElementById('announcement');
-      const txt = document.getElementById('announcementText');
-      if(msg && currentUser){
-        txt.textContent = msg;
-        box.classList.remove('hidden');
-      }else{
-        box.classList.add('hidden');
-      }
-      document.getElementById('closeAnnouncement').onclick = ()=> box.classList.add('hidden');
+      const box = $('#announcement');
+      const txt = $('#announcementText');
+      if(msg && currentUser){ txt.textContent = msg; box.classList.remove('hidden'); } else { box.classList.add('hidden'); }
+      $('#closeAnnouncement').onclick = ()=> box.classList.add('hidden');
     }
-    const btnSetAnn = document.getElementById('setAnnounce');
-    const btnClrAnn = document.getElementById('clearAnnounce');
+    const btnSetAnn = $('#setAnnounce');
+    const btnClrAnn = $('#clearAnnounce');
     if(btnSetAnn){
-      btnSetAnn.onclick = ()=>{
-        const v = document.getElementById('announceInput').value.trim();
-        DB.setAnn(v);
-        loadAnnouncement();
-        toast('تم نشر الإعلان');
-      };
-      btnClrAnn.onclick = ()=>{
-        DB.setAnn('');
-        loadAnnouncement();
-        toast('تم مسح الإعلان','warn');
-      };
+      btnSetAnn.onclick = ()=>{ DB.setAnn(($('#announceInput').value||'').trim()); loadAnnouncement(); toast('تم نشر الإعلان'); };
+      btnClrAnn.onclick = ()=>{ DB.setAnn(''); loadAnnouncement(); toast('تم مسح الإعلان','warn'); };
     }
 
-    // ===== Student replies =====
+    // طالب: ردود المسؤول
     function loadStudentReplies(){
       const msgs=DB.getMsgs().filter(m=>m.from===currentUser.id);
-      const wrap=document.getElementById('studentReplies'); wrap.innerHTML='';
+      const wrap=$('#studentReplies'); wrap.innerHTML='';
       msgs.forEach(m=>{
         const last=(m.replies||[]).slice(-1)[0];
         const el=document.createElement('div');
@@ -741,24 +891,23 @@
 
     // ===== Router =====
     function route(){
-      document.getElementById('studentDash').classList.add('hidden');
-      document.getElementById('teacherDash').classList.add('hidden');
-      document.getElementById('adminDash').classList.add('hidden');
-      document.getElementById('studentTabs').classList.add('hidden');
+      ['studentDash','teacherDash','adminDash','teacherResults','adminResults'].forEach(id=>document.getElementById(id).classList.add('hidden'));
+      $('#studentTabs').classList.add('hidden');
 
-      if(currentUser.role==='student'){ document.getElementById('studentDash').classList.remove('hidden'); showStudent(); }
-      if(currentUser.role==='teacher'){ document.getElementById('teacherDash').classList.remove('hidden'); showTeacher(); }
-      if(currentUser.role==='admin'){ document.getElementById('adminDash').classList.remove('hidden'); showAdmin(); }
+      if(currentUser.role==='student'){ $('#studentDash').classList.remove('hidden'); $('#studentTabs').classList.remove('hidden'); showStudent(); }
+      if(currentUser.role==='teacher'){ $('#teacherDash').classList.remove('hidden'); showTeacher(); }
+      if(currentUser.role==='admin'){ $('#adminDash').classList.remove('hidden'); showAdmin(); }
       loadAnnouncement();
       updatePointsUI();
+      refreshStreakUI();
     }
 
-    // ===== Take test modal =====
+    // ===== Take test modal (with analysis & inquiries) =====
     let takeCurrent=null;
     function openTake(test){
       takeCurrent=test;
-      document.getElementById('takeTitle').textContent=`حل اختبار: ${test.title}`;
-      const wrap=document.getElementById('takeQuestions'); wrap.innerHTML='';
+      $('#takeTitle').textContent=`حل اختبار: ${test.title}`;
+      const wrap=$('#takeQuestions'); wrap.innerHTML='';
       test.questions.forEach((q,qi)=>{
         const box=document.createElement('div');
         box.className='p-3 rounded-xl bg-white/5 border border-white/10';
@@ -775,44 +924,191 @@
         });
         box.appendChild(grid); wrap.appendChild(box);
       });
-      document.getElementById('takeResult').textContent='';
-      document.getElementById('takeModal').classList.remove('hidden'); document.getElementById('takeModal').classList.add('flex');
+      $('#takeResult').textContent='';
+      $('#analysisBox').classList.add('hidden'); $('#analysisBox').innerHTML='';
+      $('#takeModal').classList.remove('hidden'); $('#takeModal').classList.add('flex');
     }
-    function closeTake(){ document.getElementById('takeModal').classList.add('hidden'); document.getElementById('takeModal').classList.remove('flex'); takeCurrent=null; }
+    function closeTake(){ $('#takeModal').classList.add('hidden'); $('#takeModal').classList.remove('flex'); takeCurrent=null; }
     window.closeTake=closeTake;
+
+    // تحليل ذكي + استفسارات
+    function showAnalysisAndInquiries(test, perQCorrect){
+      const box = $('#analysisBox'); box.classList.remove('hidden');
+
+      // تحليل القسم الأضعف بناءً على السجل التاريخي
+      const myResults = solvedByUser(currentUser.id);
+      const cats = ['placement','verbal','quant'];
+      const rateByCat = {};
+      cats.forEach(c=>{
+        const arr = myResults.filter(r=>r.category===c);
+        const hit = arr.reduce((a,r)=>a+r.score,0);
+        const tot = arr.reduce((a,r)=>a+r.total,0);
+        rateByCat[c] = tot? (hit/tot): null;
+      });
+      const weakest = Object.entries(rateByCat).filter(([c,v])=>v!==null).sort((a,b)=>a[1]-b[1])[0]?.[0] || test.category;
+
+      // بناء واجهة
+      const wrongIdx = perQCorrect.map((v,i)=>v?null:i).filter(v=>v!==null);
+      box.innerHTML = `
+        <div class="text-sm">
+          <div class="font-bold mb-1">تحليل ذكي للنتيجة</div>
+          <div class="text-slate-300">أضعف قسم لديك: <span class="text-amber-300">${labelCat(weakest)}</span></div>
+          ${wrongIdx.length? `<div class="mt-2">أسئلة تحتاج مراجعة: ${wrongIdx.map(i=>'#'+(i+1)).join('، ')}</div>` : `<div class="mt-2 text-emerald-300">ممتاز! لا توجد أسئلة خاطئة 🎉</div>`}
+        </div>
+        ${wrongIdx.length? `<div class="mt-3">
+          <div class="text-sm font-bold mb-1">استفسار عن سؤال:</div>
+          <div class="flex gap-2 items-center">
+            <select id="inqIndex" class="input w-32">
+              ${wrongIdx.map(i=>`<option value="${i}">سؤال ${i+1}</option>`).join('')}
+            </select>
+            <input id="inqText" class="input flex-1" placeholder="اكتب استفسارك للمعلم">
+            <button id="sendInquiry" class="btn pill px-3 py-2 bg-white/10 hover:bg-white/20">إرسال للمعلم</button>
+          </div>
+          <div class="text-xs text-slate-400 mt-1">سيصل استفسارك لمعلم الاختبار (إن وُجد)، وسترى الردود في صفحة “اختبارات تم حلها”.</div>
+        </div>` : '' }
+      `;
+      const btn = $('#sendInquiry');
+      if(btn){
+        btn.onclick = ()=>{
+          const qIndex = parseInt($('#inqIndex').value);
+          const text = ($('#inqText').value||'').trim();
+          if(!text) return toast('اكتب نص الاستفسار','warn');
+          const q = {id:crypto.randomUUID(), fromUserId:currentUser.id, toTeacherId: test.teacherId || null, testId:test.id, qIndex, text, replies:[], at:Date.now()};
+          const list = DB.getInquiries(); list.push(q); DB.setInquiries(list);
+          toast('تم إرسال الاستفسار'); $('#inqText').value=''; 
+        };
+      }
+    }
 
     document.getElementById('submitAnswers').onclick=()=>{
       if(!takeCurrent) return;
-      let correct=0;
+      let correct=0; const perQ=[];
       takeCurrent.questions.forEach((q,qi)=>{
         const sel=document.querySelector(`input[name="q${qi}"]:checked`);
-        if(sel && parseInt(sel.value)===q.correctIndex) correct++;
+        const ok = (sel && parseInt(sel.value)===q.correctIndex)?1:0; perQ.push(ok);
+        if(ok) correct++;
       });
-      document.getElementById('takeResult').textContent=`نتيجتك: ${correct} / ${takeCurrent.questions.length}`;
+      $('#takeResult').textContent=`نتيجتك: ${correct} / ${takeCurrent.questions.length}`;
       const res=DB.getResults();
       if(!isSolved(currentUser.id, takeCurrent.id)){
-        res.push({id:crypto.randomUUID(), userId:currentUser.id, testId:takeCurrent.id, score:correct, total:takeCurrent.questions.length, at:Date.now()});
+        res.push({
+          id:crypto.randomUUID(), userId:currentUser.id, testId:takeCurrent.id,
+          score:correct, total:takeCurrent.questions.length, at:Date.now(),
+          perQ: perQ, category: takeCurrent.category
+        });
         DB.setResults(res);
       }
-      // بعد التسليم: حدّث النقاط (10 نقاط لكل اختبار)
-      recalcPoints(currentUser.id);
-      updatePointsUI();
+      // نقاط + شارات + streak تحديث نشاط اليوم
+      recalcPoints(currentUser.id); updatePointsUI(); updateBadgesAndBars();
+      const users=DB.getUsers(); const idx=users.findIndex(u=>u.id===currentUser.id);
+      users[idx].lastActive = todayKey(); DB.setUsers(users); currentUser=users[idx]; refreshStreakUI();
 
-      setTimeout(()=>{ closeTake(); if(currentUser.role==='student') showStudent(); }, 800);
-      updateProgress();
+      // تحليل ذكي + استفسارات
+      showAnalysisAndInquiries(takeCurrent, perQ);
+
+      setTimeout(()=>{ /* لا نغلق فورًا حتى يرى التحليل */ }, 0);
+    };
+
+    // ===== نتائج المعلم / المسؤول + تصدير CSV =====
+    let lastTeacherTestId = null, lastAdminTestId = null;
+
+    function exportCSV(rows, filename){
+      const csv = rows.map(r=>r.map(v=>String(v).replace(/"/g,'""')).map(v=>`"${v}"`).join(',')).join('\n');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+      a.download = filename || 'results.csv'; a.click();
+    }
+
+    function openTeacherResults(testId){
+      lastTeacherTestId = testId;
+      $('#teacherDash').classList.add('hidden'); $('#teacherResults').classList.remove('hidden');
+      const results = DB.getResults().filter(r=>r.testId===testId);
+      const users = DB.getUsers();
+      const table = $('#teacherResultsTable'); table.innerHTML='';
+      if(results.length===0){ table.innerHTML='<div class="text-slate-400">لا يوجد طلاب حلوا هذا الاختبار.</div>'; }
+      results.forEach(r=>{
+        const u = users.find(x=>x.id===r.userId);
+        const row = document.createElement('div');
+        row.className='p-3 rounded-lg bg-white/5 border border-white/10 flex items-center justify-between';
+        row.innerHTML = `<div>${u?u.name:'طالب'} — ${u?.grade||''} ${u?.class?('• فصل '+u.class):''}</div>
+                         <div class="text-amber-200">${r.score}/${r.total}</div>`;
+        table.appendChild(row);
+      });
+      $('#backToTeacher').onclick = ()=>{ $('#teacherResults').classList.add('hidden'); $('#teacherDash').classList.remove('hidden'); };
+      $('#exportTeacherCSV').onclick = ()=>{
+        const rows = [['الطالب','الصف','الفصل','الدرجة','من']];
+        results.forEach(r=>{
+          const u = users.find(x=>x.id===r.userId)||{};
+          rows.push([u.name||'طالب', u.grade||'', u.class||'', r.score, r.total]);
+        });
+        exportCSV(rows, 'teacher_results.csv');
+      };
+    }
+
+    function openAdminResults(testId){
+      lastAdminTestId = testId;
+      $('#adminDash').classList.add('hidden'); $('#adminResults').classList.remove('hidden');
+      renderAdminResults('');
+      $('#backToAdmin').onclick = ()=>{ $('#adminResults').classList.add('hidden'); $('#adminDash').classList.remove('hidden'); };
+      $('#exportAdminCSV').onclick = ()=>{
+        const {rows} = buildAdminRows('');
+        exportCSV(rows, 'admin_results.csv');
+      };
+      $('#adminSearchStudent').oninput = (e)=> renderAdminResults(e.target.value.trim());
+    }
+    function buildAdminRows(q){
+      const results = DB.getResults().filter(r=>r.testId===lastAdminTestId);
+      const users = DB.getUsers();
+      const tests = DB.getTests();
+      const t = tests.find(t=>t.id===lastAdminTestId);
+      const filtered = results.filter(r=>{
+        const u = users.find(x=>x.id===r.userId)||{};
+        return !q || (u.name||'').includes(q);
+      });
+      const rows = [['الاختبار','القسم','الطالب','الصف','الفصل','الدرجة','من','تاريخ']];
+      filtered.forEach(r=>{
+        const u = users.find(x=>x.id===r.userId)||{};
+        rows.push([t?t.title:'اختبار', labelCat(r.category), u.name||'طالب', u.grade||'', u.class||'', r.score, r.total, new Date(r.at).toLocaleString()]);
+      });
+      return {filtered, users, t, rows};
+    }
+    function renderAdminResults(q){
+      const table = $('#adminResultsTable'); table.innerHTML='';
+      const {filtered, users} = buildAdminRows(q);
+      if(filtered.length===0){ table.innerHTML='<div class="text-slate-400">لا توجد نتائج.</div>'; return; }
+      filtered.forEach(r=>{
+        const u = users.find(x=>x.id===r.userId)||{};
+        const row = document.createElement('div');
+        row.className = 'p-3 rounded-lg bg-white/5 border border-white/10 flex items-center justify-between';
+        row.innerHTML = `<div class="text-sm"><span class="font-bold">${u.name||'طالب'}</span> — ${u.grade||''} ${u.class?('• فصل '+u.class):''}</div>
+                         <div class="text-amber-200">${r.score}/${r.total}</div>`;
+        table.appendChild(row);
+      });
+    }
+
+    // ===== Messages (طالب -> مسؤول فقط كما في نسختك) =====
+    document.getElementById('sendMsgToAdmin').onclick = ()=>{
+      const content=$('#msgToAdmin').value.trim(); if(!content) return toast('اكتب الرسالة','warn');
+      const msgs=DB.getMsgs(); msgs.push({id:crypto.randomUUID(), from:currentUser.id, to:'admin', content, replies:[], createdAt:Date.now()});
+      DB.setMsgs(msgs); $('#msgToAdmin').value=''; toast('تم الإرسال'); loadStudentReplies();
     };
 
     // ===== Init =====
+    function updateUIAfterLogin(){
+      $('#btnLogout').classList.remove('hidden');
+      $('#whoami').classList.remove('hidden');
+      $('#pointsBadge').classList.remove('hidden');
+      $('#streakBadge').classList.remove('hidden');
+      $('#whoami').textContent=`${roles[currentUser.role]} — ${currentUser.name}`;
+    }
     if(currentUser){
-      document.getElementById('authSection').classList.add('hidden');
-      document.getElementById('appSection').classList.remove('hidden');
-      document.getElementById('btnLogout').classList.remove('hidden');
-      document.getElementById('whoami').classList.remove('hidden');
-      document.getElementById('pointsBadge').classList.remove('hidden');
-      document.getElementById('whoami').textContent=`${roles[currentUser.role]} — ${currentUser.name}`;
+      $('#authSection').classList.add('hidden');
+      $('#appSection').classList.remove('hidden');
+      updateUIAfterLogin();
       route();
     }
     rotateMotivation();
+
   </script>
 </body>
 </html>
