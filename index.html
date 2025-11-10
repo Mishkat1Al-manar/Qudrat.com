@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>منصّة القدرات الأسطورية — ثانوية مشكاة المنار الأهلية</title>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+<title>منصة القدرات الأسطورية</title>  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg:#0b1020; --bg2:#0e1428; --card:#0e162c; --muted:#9fb0c7;
@@ -120,7 +119,6 @@
           <div class="grid-2">
             <div>
               <label>الاسم الثلاثي</label>
-              <input id="regFullname" placeholder="مثال: محمد أحمد الغامدي">
             </div>
             <div>
               <label>اسم المستخدم</label>
@@ -141,7 +139,7 @@
             <div>
               <label>الصف</label>
               <select id="regGrade">
-                <option value="">اختياري</option>
+                <option value="">اختر</option>
                 <option>أول ثانوي</option>
                 <option>ثاني ثانوي</option>
                 <option>ثالث ثانوي</option>
@@ -150,14 +148,13 @@
             <div>
               <label>الفصل</label>
               <select id="regClass">
-                <option value="">اختياري</option>
+                <option value="">اختر</option>
                 <option>1</option><option>2</option><option>3</option><option>4</option>
               </select>
             </div>
           </div>
           <div class="row" style="margin-top:14px">
             <button class="btn" id="btnRegister">إنشاء الحساب</button>
-            <span class="hint">التسجيل للطلاب فقط</span>
           </div>
           <div class="muted" id="regMsg" style="margin-top:8px"></div>
         </div>
@@ -171,7 +168,6 @@
           <input id="loginPassword" type="password" placeholder="••••••••">
           <div class="row" style="margin-top:14px">
             <button class="btn secondary" id="btnLogin">دخول</button>
-            <span class="tag">المسؤول: admin / admin</span>
           </div>
           <div class="muted" id="loginMsg" style="margin-top:8px"></div>
         </div>
