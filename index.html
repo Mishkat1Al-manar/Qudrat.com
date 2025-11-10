@@ -36,7 +36,7 @@
 
     .container{max-width:1100px;margin:0 auto;padding:24px}
 
-    header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:10}
+    header{position:sticky;top:0;background:#d4af37;border-bottom:1px solid var(--line);z-index:10}
     .brand{display:flex;flex-direction:row-reverse;align-items:center;gap:14px}
     .logo{width:40px;height:40px;border-radius:10px;background:conic-gradient(from 0deg at 50% 50%, #1d4ed8, #06b6d4, #7c3aed, #1d4ed8);box-shadow:0 0 0 2px #fff,0 0 0 3px rgba(29,78,216,.2)}
     .brand h1{font-size:20px;margin:0}
@@ -61,94 +61,4 @@
 
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
     @media (max-width:900px){.auth{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
-
-    .stat{padding:16px;border-radius:14px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow)}
-    .stat h3{margin:0;font-size:14px;color:var(--muted)}
-    .stat .big{font-size:28px;font-weight:900;margin-top:6px;color:var(--ink)}
-
-    .motivation{display:flex;gap:10px;overflow:auto;padding-bottom:6px}
-    .chip{white-space:nowrap;padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:#fff}
-
-    .test{padding:14px;border-radius:14px;border:1px solid var(--line);background:#fff;box-shadow:var(--shadow)}
-    .test .title{font-weight:900}
-    .test .meta{font-size:13px;color:var(--muted)}
-
-    .danger{background:linear-gradient(180deg,#ef4444,#b91c1c);color:#fff}
-    .ok{background:linear-gradient(180deg,#16a34a,#15803d);color:#fff}
-    .gold{color:var(--gold)}
-
-    .timer{font-variant-numeric:tabular-nums;font-size:20px;font-weight:800}
-    .questionImg{max-width:100%;border-radius:12px;margin:10px 0;border:1px solid var(--line)}
-
-    .footer-note{margin-top:24px;color:var(--muted);font-size:12px}
-  </style>
-</head>
-<body>
-  <header>
-    <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;gap:16px">
-      <div class="brand">
-        <img class="logo" src="data:image/svg+xml;base64,Cjxzdmcgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiB2aWV3Qm94PSIwIDAgNjQgNjQiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxwYXRoIGQ9Ik0xNiAyNEMxNiAyMCAyMCAxNiAyNCAxNkg0MEM0NCAxNiA0OCAyMCA0OCAyNFY0NEM0NCA0NCA0MCA0NiA0MCA1MEgyNEMyNCA0NiAyMCA0NCAxNiA0NFYyNFoiIHN0cm9rZT0iI2Q0YWYzNyIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSJub25lIi8+CjxwYXRoIGQ9Ik0zMiAxMEwzNC40NzIxIDE1LjUyNzlMNDAgMThMMzQuNDcyMSAyMC40NzIxTDMyIDI2TDI5LjUyNzkgMjAuNDcyMUwyNCAxOEwyOS41Mjc5IDE1LjUyNzlMMzIgMTBaIiBmaWxsPSIjZDRhZjM3Ii8+Cjwvc3ZnPgo=">}]}
-        <h1>منصّة القدرات الأسطورية — ثانوية مشكاة المنار الأهلية</h1>
-      </div>
-      <div id="userBox" class="muted" style="margin-right:auto"><a href="#authScreen" style="padding:8px 16px;border-radius:10px;background:linear-gradient(90deg,#fbbf24,#3b82f6);color:#fff;font-weight:700;">تسجيل الدخول</a></div></div>
-    </div>
-  </header>
-
-  <main class="container">
-
-    <!-- واجهة الهيرو (الصفحة الرئيسية) -->
-    <section id="hero" style="margin-top:60px;display:flex;align-items:center;justify-content:space-between;gap:40px;min-height:60vh;background:linear-gradient(135deg,#3b0764,#1e1b4b,#0f172a);padding:60px;border-radius:24px;">
-      <div style="flex:1;color:white;">
-        <div style="background:rgba(255,255,255,0.1);display:inline-block;padding:6px 14px;border-radius:999px;font-size:14px;margin-bottom:18px;">جديد 🔥 محاكي تفاعلي</div>
-        <h1 style="font-size:44px;font-weight:900;margin:0 0 14px 0;">محاكي <span style="color:#38bdf8">الاختبار</span> التفاعلي</h1>
-        <p style="color:#cbd5e1;font-size:16px;line-height:1.8;max-width:420px;">تجربة محاكاة واقعية لاختبار القدرات مع تقييم ذكي وتحليل مفصل لنقاط القوة والضعف لديك.</p>
-        <div style="margin-top:26px;display:flex;flex-direction:column;gap:12px;width:260px;">
-          <div style="background:rgba(255,255,255,0.08);padding:12px 18px;border-radius:14px;display:flex;align-items:center;gap:10px;">
-            <span>⚡</span> <span>تقييم فوري</span>
-          </div>
-          <div style="background:rgba(255,255,255,0.08);padding:12px 18px;border-radius:14px;display:flex;align-items:center;gap:10px;">
-            <span>🎯</span> <span>محاكاة واقعية</span>
-          </div>
-          <div style="background:rgba(255,255,255,0.08);padding:12px 18px;border-radius:14px;display:flex;align-items:center;gap:10px;">
-            <span>💡</span> <span>تحليل ذكي</span>
-          </div>
-        </div>
-      </div>
-      <div style="flex:1;display:flex;justify-content:center;">
-        <div style="width:100%;max-width:500px;height:300px;border-radius:18px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:14px;">
-          صورة واجهة المحاكي هنا
-        </div>
-      </div>
-    </section>
-    <!-- نهاية الهيرو -->
-    <!-- شاشة الدخول/التسجيل (بدون تحديد مستوى) -->
-    <section id="authScreen" class="auth hidden" class="auth" style="background:transparent;display:flex;justify-content:center;gap:40px;margin-top:60px;">
-  <div class="card" style="background:rgba(255,255,255,0.05);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.08);width:360px;padding:28px;border-radius:20px;">
-    <h2 style="text-align:center;margin-bottom:16px;color:var(--ink)">تسجيل الدخول</h2>
-    <label>البريد الإلكتروني</label>
-    <input id="loginUser" placeholder="example@example.com" />
-    <label>كلمة المرور</label>
-    <input id="loginPass" type="password" placeholder="••••••••" />
-    <button class="btn" style="width:100%;margin-top:18px;background:linear-gradient(90deg,#fbbf24,#3b82f6);" onclick="login()">دخول</button>
-  </div>
-
-  <div class="card" style="background:rgba(255,255,255,0.05);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.08);width:360px;padding:28px;border-radius:20px;">
-    <h2 style="text-align:center;margin-bottom:16px;color:var(--ink)">إنشاء حساب</h2>
-
-    <div style="display:flex;justify-content:center;gap:8px;margin-bottom:14px;">
-      <button id="roleStudent" onclick="regRole='student';this.classList.add('active');document.getElementById('roleTeacher').classList.remove('active');" class="pill active" style="flex:1;text-align:center;">طالب</button>
-      <button id="roleTeacher" onclick="regRole='teacher';this.classList.add('active');document.getElementById('roleStudent').classList.remove('active');" class="pill" style="flex:1;text-align:center;">معلم</button>
-    </div>
-
-    <label>الاسم الثلاثي</label>
-    <input id="regName" placeholder="الاسم الثلاثي" />
-    <label>البريد الإلكتروني</label>
-    <input id="regUser" placeholder="example@example.com" />
-    <label>كلمة المرور</label>
-    <input id="regPass" type="password" placeholder="••••••••" />
-
-    <div class="row" style="margin-top:10px;">
-      <div>
-
-
 
