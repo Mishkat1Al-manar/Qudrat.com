@@ -2,8 +2,9 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>منصة القدرات الأسطورية</title>  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>القدرات الأسطورية — ثانوية مشكاة المنار الأهلية</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     :root{
       --bg:#0b1020; --bg2:#0e1428; --card:#0e162c; --muted:#9fb0c7;
@@ -13,827 +14,949 @@
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; font-family:'Tajawal',system-ui,Arial,sans-serif; color:#e6edf5;
-      background:
-        radial-gradient(1200px 600px at 110% -10%, rgba(29,78,216,.25), transparent 60%),
-        radial-gradient(800px 400px at -10% 110%, rgba(212,175,55,.18), transparent 60%),
-        linear-gradient(180deg,var(--bg),#081024 80%);
+      margin:0; font-family:'Tajawal',system-ui,Arial; color:#e6eefc; background:
+        radial-gradient(1000px 600px at 120% -10%, #1d4ed820 0%, transparent 60%),
+        radial-gradient(800px 500px at -20% 120%, #06b6d420 0%, transparent 60%),
+        linear-gradient(180deg,var(--bg),var(--bg2));
+      overflow-x:hidden;
     }
-    a{color:var(--teal);text-decoration:none}
-    .container{max-width:1200px;margin:auto;padding:24px}
-    .brand{
-      display:flex;align-items:center;gap:12px;margin-bottom:22px
-    }
-    .logo{
-      width:52px;height:52px;border-radius:14px;background:
-       conic-gradient(from 210deg, rgba(212,175,55,.9), rgba(6,182,212,.8), rgba(29,78,216,.85), rgba(212,175,55,.9));
-      position:relative; box-shadow:0 8px 30px rgba(0,0,0,.35), inset 0 0 30px rgba(255,255,255,.08);
-    }
-    .logo:after{content:"★";position:absolute;inset:0;display:grid;place-items:center;font-weight:900;color:rgba(255,255,255,.85)}
-    h1{margin:0;font-size:24px;letter-spacing:.3px}
-    .subtitle{color:var(--muted);font-size:13px;margin-top:4px}
-
-    /* Auth Split */
-    .split{
-      display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch
-    }
-    .panel{
+    a{color:var(--teal); text-decoration:none}
+    .wrap{max-width:1200px; margin:0 auto; padding:24px}
+    .glass{
       background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
       border:1px solid rgba(255,255,255,.08);
-      border-radius:16px;padding:20px;position:relative;overflow:hidden
+      border-radius:16px; box-shadow:0 10px 35px rgba(0,0,0,.35);
+      backdrop-filter: blur(8px);
     }
-    .panel:before{
-      content:"";position:absolute;inset:-2px;pointer-events:none;border-radius:18px;
-      background:linear-gradient(120deg,transparent,rgba(212,175,55,.25),transparent 60%);
-      mask:linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
-      -webkit-mask-composite: xor; mask-composite: exclude; padding:2px;
+    /* ===== شاشة الدخول/التسجيل (يمين/يسار) ===== */
+    .auth-grid{
+      display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:stretch;
+      min-height: calc(100vh - 48px);
     }
-    .panel h2{margin:0 0 14px 0;font-size:20px}
-    label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+    .panel{padding:28px}
+    .title{font-weight:900; letter-spacing:.3px}
+    .subtitle{color:var(--muted)}
+    .divider{height:1px;background:rgba(255,255,255,.08); margin:16px 0}
+    label{display:block; font-size:14px; margin:8px 0 6px}
     input,select,textarea{
-      width:100%;background:rgba(8,14,30,.7);border:1px solid rgba(255,255,255,.12);
-      color:#fff;padding:12px;border-radius:12px;outline:none;transition:.2s; font-family:inherit
+      width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04); color:#e6eefc; outline:none;
     }
-    input:focus,select:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(6,182,212,.2)}
-    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    input::placeholder{color:#b8c6dd}
+    .row{display:grid; grid-template-columns:1fr 1fr; gap:12px}
     .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:8px;
-      background:linear-gradient(180deg, rgba(212,175,55,.95), rgba(212,175,55,.75));
-      color:#1a1f2e;font-weight:800;border:0;padding:12px 14px;border-radius:12px;cursor:pointer;box-shadow:0 8px 24px rgba(212,175,55,.22);
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      padding:12px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.12);
+      cursor:pointer; transition:.2s ease; font-weight:700
     }
-    .btn.secondary{background:linear-gradient(180deg, rgba(6,182,212,.95), rgba(6,182,212,.7)); color:#061020}
-    .btn.ghost{background:rgba(255,255,255,.07);color:#fff;border:1px solid rgba(255,255,255,.1)}
-    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    .muted{color:var(--muted);font-size:12px}
-    .hint{font-size:12px;color:#c1d5ff}
+    .btn-primary{background:linear-gradient(90deg,#1d4ed8,#06b6d4); color:white; border:none}
+    .btn:hover{transform:translateY(-1px)}
+    .hint{font-size:12px; color:var(--muted)}
+    .badge{display:inline-block; padding:4px 8px; border-radius:999px; font-size:12px; border:1px solid rgba(255,255,255,.16)}
+    .badge-gold{border-color:#d4af37aa; color:#f4e7b0}
+    .flex{display:flex; gap:12px; align-items:center}
+    .space{height:12px}
     .hidden{display:none !important}
-    .tag{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:6px 10px;border-radius:999px;font-size:12px}
-
-    /* Tabs */
-    .tabs{display:flex;gap:8px;margin-bottom:14px}
-    .tab{padding:10px 12px;border-radius:10px;cursor:pointer;border:1px solid rgba(255,255,255,.08)}
-    .tab.active{background:rgba(212,175,55,.18);border-color:rgba(212,175,55,.45)}
-
-    /* Cards */
-    .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px}
-    .list{display:grid;gap:10px}
-    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-    .kpi{padding:14px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
-    progress{width:100%;height:10px;border-radius:999px;overflow:hidden}
-    progress::-webkit-progress-bar{background:rgba(255,255,255,.1)}
-    progress::-webkit-progress-value{background:linear-gradient(90deg,var(--gold),var(--teal))}
-    .right{ text-align:right }
-    .img-preview{max-width:100%;border-radius:10px;border:1px solid rgba(255,255,255,.1);margin-top:8px}
-
-    /* Tables */
-    table{width:100%;border-collapse:separate;border-spacing:0 10px}
-    th,td{padding:10px 12px;text-align:right}
-    th{color:#c9d6f3;font-weight:700}
-    tr{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08)}
-    tr td:first-child,tr th:first-child{border-radius:10px 0 0 10px}
-    tr td:last-child,tr th:last-child{border-radius:0 10px 10px 0}
-
-    @media (max-width:900px){ .split{grid-template-columns:1fr} .kpis{grid-template-columns:1fr 1fr} }
-    @media (max-width:560px){ .kpis{grid-template-columns:1fr} }
+    .card{padding:18px; border-radius:14px; background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08)}
+    .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+    .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:16px}
+    .grid-auto{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:14px}
+    .tag{padding:4px 10px; border-radius:999px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); font-size:12px}
+    .kpi{font-size:32px; font-weight:900}
+    .progress{height:12px; background:rgba(255,255,255,.08); border-radius:999px; overflow:hidden}
+    .progress > span{display:block; height:100%; background:linear-gradient(90deg,#06b6d4,#1d4ed8)}
+    .list{width:100%; border-collapse:collapse}
+    .list th,.list td{border-bottom:1px solid rgba(255,255,255,.08); padding:10px; text-align:right}
+    .pill{padding:6px 10px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.13); border-radius:999px; font-size:12px}
+    .danger{color:#ffb4b4}
+    .success{color:#b9f6c3}
+    .center{text-align:center}
+    .right{text-align:right}
+    .timer{font-weight:900; letter-spacing:1px}
+    .img-q{max-width:100%; border-radius:12px; border:1px solid rgba(255,255,255,.12)}
+    /* هيدر داخلي */
+    .topbar{display:flex; justify-content:space-between; align-items:center; padding:14px 18px; border-radius:14px; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08)}
+    .avatar{width:36px;height:36px;border-radius:50%; background:linear-gradient(45deg,#1d4ed8,#06b6d4)}
+    .tabbar{display:flex; gap:8px; flex-wrap:wrap}
+    .tab{padding:10px 14px;border-radius:999px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); cursor:pointer}
+    .tab.active{background:linear-gradient(90deg,#1d4ed8,#06b6d4); color:#fff; border:none}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace}
+    .foot{opacity:.7; font-size:12px; margin-top:10px}
+    @media(max-width:980px){ .auth-grid{grid-template-columns:1fr} }
   </style>
 </head>
 <body>
-  <div class="container" id="app">
-
-    <!-- ====== Brand ====== -->
-    <div class="brand">
-      <div class="logo"></div>
-      <div>
-        <h1>منصّة القدرات الأسطورية</h1>
-        <div class="subtitle">ثانوية مشكاة المنار الأهلية</div>
-      </div>
-      <div style="margin-inline-start:auto" id="userMini"></div>
-    </div>
-
-    <!-- ====== AUTH ====== -->
-    <div id="authView">
-      <div class="split">
-        <!-- Register (left) -->
-        <div class="panel">
-          <h2>إنشاء حساب طالب</h2>
-          <div class="grid-2">
-            <div>
-              <label>الاسم الثلاثي</label>
-              <input id="regFullname" placeholder="name ">
-            </div>
-            <div>
-              <label>اسم المستخدم</label>
-              <input id="regUsername" placeholder="username">
-            </div>
+  <div class="wrap">
+    <!-- ============ شاشة الدخول/التسجيل ============ -->
+    <section id="auth" class="auth-grid">
+      <!-- يسار: إنشاء حساب للطلاب -->
+      <div class="panel glass">
+        <div class="badge badge-gold">الطلاب فقط</div>
+        <h1 class="title" style="margin:8px 0 4px">إنشاء حساب طالب</h1>
+        <div class="subtitle">ثانوية مشكاة المنار الأهلية — منصّة القدرات الأسطورية</div>
+        <div class="divider"></div>
+        <div class="row">
+          <div>
+            <label>الاسم الثلاثي</label>
+            <input id="rName" placeholder="مثال: محمد عبدالله القحطاني">
           </div>
-          <div class="grid-2" style="margin-top:10px">
-            <div>
-              <label>كلمة المرور</label>
-              <input id="regPassword" type="password" placeholder="••••••••">
-            </div>
-            <div>
-              <label>تأكيد كلمة المرور</label>
-              <input id="regPassword2" type="password" placeholder="••••••••">
-            </div>
+          <div>
+            <label>اسم المستخدم</label>
+            <input id="rUser" placeholder="username">
           </div>
-          <div class="grid-2" style="margin-top:10px">
-            <div>
-              <label>الصف</label>
-              <select id="regGrade">
-                <option value="">اختر</option>
-                <option>أول ثانوي</option>
-                <option>ثاني ثانوي</option>
-                <option>ثالث ثانوي</option>
-              </select>
-            </div>
-            <div>
-              <label>الفصل</label>
-              <select id="regClass">
-                <option value="">اختر</option>
-                <option>1</option><option>2</option><option>3</option><option>4</option>
-              </select>
-            </div>
-          </div>
-          <div class="row" style="margin-top:14px">
-            <button class="btn" id="btnRegister">إنشاء الحساب</button>
-          </div>
-          <div class="muted" id="regMsg" style="margin-top:8px"></div>
         </div>
-
-        <!-- Login (right) -->
-        <div class="panel">
-          <h2>تسجيل الدخول</h2>
-          <label>اسم المستخدم</label>
-          <input id="loginUsername" placeholder=" username ">
-          <label style="margin-top:10px">كلمة المرور</label>
-          <input id="loginPassword" type="password" placeholder="••••••••">
-          <div class="row" style="margin-top:14px">
-            <button class="btn secondary" id="btnLogin">دخول</button>
+        <div class="row">
+          <div>
+            <label>الصف</label>
+            <select id="rGrade">
+              <option value="">— اختياري —</option>
+              <option>أول ثانوي</option>
+              <option>ثاني ثانوي</option>
+              <option>ثالث ثانوي</option>
+            </select>
           </div>
-          <div class="muted" id="loginMsg" style="margin-top:8px"></div>
+          <div>
+            <label>الفصل</label>
+            <select id="rClass">
+              <option value="">— اختياري —</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+            </select>
+          </div>
         </div>
+        <div class="row">
+          <div>
+            <label>كلمة المرور</label>
+            <input id="rPass" type="password" placeholder="••••••••">
+          </div>
+          <div>
+            <label>تأكيد كلمة المرور</label>
+            <input id="rPass2" type="password" placeholder="••••••••">
+          </div>
+        </div>
+        <div class="space"></div>
+        <button class="btn btn-primary" id="btnRegister">إنشاء الحساب</button>
+        <div id="regMsg" class="foot"></div>
+        <div class="foot">بإنشائك حسابًا فأنت تقبل بسياسة الاستخدام.</div>
       </div>
-    </div>
 
-    <!-- ====== STUDENT DASH ====== -->
-    <div id="studentView" class="hidden">
-      <div class="tabs">
-        <div class="tab active" data-stab="home">الرئيسية</div>
-        <div class="tab" data-stab="collections">قسم التجميعات</div>
-        <div class="tab" data-stab="results">نتائجي</div>
-        <div class="tab" data-stab="messages">المراسلات</div>
-        <div class="tab" data-stab="profile">حسابي</div>
-        <div style="margin-inline-start:auto" class="tab" id="logoutS">تسجيل الخروج</div>
+      <!-- يمين: تسجيل الدخول -->
+      <div class="panel glass">
+        <div class="badge">تسجيل الدخول</div>
+        <h1 class="title" style="margin:8px 0 4px">مرحبًا بك ✨</h1>
+        <div class="subtitle">ادخل باسم المستخدم وكلمة المرور (المسؤول: <span class="mono">admin / admin</span>)</div>
+        <div class="divider"></div>
+        <label>اسم المستخدم</label>
+        <input id="lUser" placeholder="username أو admin">
+        <label>كلمة المرور</label>
+        <input id="lPass" type="password" placeholder="••••••••">
+        <div class="space"></div>
+        <button class="btn btn-primary" id="btnLogin">دخول</button>
+        <div id="loginMsg" class="foot"></div>
+        <div class="foot">نصيحة: لا تشارك كلمة مرورك مع أي أحد.</div>
       </div>
+    </section>
 
-      <div id="sHome">
-        <div class="kpis">
-          <div class="kpi">
-            <div class="muted">عبارة تحفيزية</div>
-            <div id="motiv" style="font-weight:900;font-size:18px;line-height:1.6;margin-top:6px"></div>
+    <!-- ============ منطقة التطبيق بعد الدخول ============ -->
+    <section id="app" class="hidden">
+      <div class="topbar glass">
+        <div class="flex">
+          <div class="avatar"></div>
+          <div>
+            <div id="hiTitle" class="title" style="font-size:18px">مرحبًا</div>
+            <div id="hiSub" class="subtitle">نتمنى لك تجربة أسطورية</div>
           </div>
-          <div class="kpi">
-            <div class="muted">نسبة التقدم</div>
-            <div style="font-size:28px;font-weight:900" id="progressPct">0%</div>
-            <progress id="progressBar" value="0" max="100"></progress>
-          </div>
-          <div class="kpi">
-            <div class="muted">لوحة الصدارة (أعلى 5)</div>
-            <div id="leaderMini" class="list" style="margin-top:8px"></div>
-          </div>
-          <div class="kpi">
-            <div class="muted">بياناتي</div>
-            <div id="studentInfo" style="margin-top:6px"></div>
-          </div>
+        </div>
+        <div class="flex">
+          <div id="roleBadge" class="pill">طالب</div>
+          <button class="btn" id="btnLogout">تسجيل خروج</button>
         </div>
       </div>
 
-      <div id="sCollections" class="hidden">
-        <div class="row" style="margin-bottom:10px">
-          <span class="tag">كمي</span>
-          <span class="tag">لفظي</span>
-          <span class="muted">يمكن إعادة أي اختبار مرات غير محدودة</span>
+      <!-- تبويبات الطالب -->
+      <div id="studentTabs" class="tabbar hidden" style="margin:12px 0">
+        <div class="tab active" data-tab="sHome">الرئيسية</div>
+        <div class="tab" data-tab="sBank">التجميعات</div>
+        <div class="tab" data-tab="sResults">نتائجي</div>
+        <div class="tab" data-tab="sMsgs">مراسلة المسؤول</div>
+        <div class="tab" data-tab="sProfile">حسابي</div>
+      </div>
+
+      <!-- تبويبات المسؤول -->
+      <div id="adminTabs" class="tabbar hidden" style="margin:12px 0">
+        <div class="tab active" data-tab="aHome">لوحة التحكم</div>
+        <div class="tab" data-tab="aTests">إنشاء التجميعات</div>
+        <div class="tab" data-tab="aResults">نتائج الطلاب</div>
+        <div class="tab" data-tab="aMsgs">الرسائل</div>
+        <div class="tab" data-tab="aStudents">الطلاب المسجلون</div>
+      </div>
+
+      <!-- ===== محتوى الطالب ===== -->
+      <div id="sHome" class="hidden">
+        <div class="grid-3">
+          <div class="card">
+            <div class="badge">عبارة تحفيزية</div>
+            <h2 id="motivation" style="margin:8px 0 10px">أنت قادر على تحقيق المستحيل 💪</h2>
+            <div class="foot">تتغيّر العبارة عند كل دخول.</div>
+          </div>
+          <div class="card">
+            <div class="badge">نسبة التقدّم</div>
+            <div class="kpi"><span id="progressPct">0</span>%</div>
+            <div class="progress"><span id="progressBar" style="width:0%"></span></div>
+            <div class="foot">يتم احتسابها من متوسط أعلى 5 محاولات.</div>
+          </div>
+          <div class="card">
+            <div class="badge">لوحة الصدارة</div>
+            <table class="list" id="leaderboard"></table>
+            <div class="foot">تنافس شريف 🔥</div>
+          </div>
         </div>
-        <div id="testsList" class="list"></div>
+        <div class="space"></div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="badge">تجميعات كمي</div>
+            <div id="quantList" class="grid-auto"></div>
+          </div>
+          <div class="card">
+            <div class="badge">تجميعات لفظي</div>
+            <div id="verbList" class="grid-auto"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="sBank" class="hidden">
+        <div class="card">
+          <div class="flex" style="justify-content:space-between">
+            <div><span class="badge">كل التجميعات</span></div>
+            <div class="flex">
+              <span class="tag">كمي</span><span class="tag">لفظي</span>
+            </div>
+          </div>
+          <div id="allBank" class="grid-auto" style="margin-top:12px"></div>
+        </div>
       </div>
 
       <div id="sResults" class="hidden">
-        <div id="myResults"></div>
+        <div class="card">
+          <div class="badge">نتائجي</div>
+          <table class="list" id="myResults">
+            <thead><tr><th>التاريخ</th><th>اسم التجميع</th><th>الدرجة</th><th>المدة</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
 
-      <div id="sMessages" class="hidden">
+      <div id="sMsgs" class="hidden">
         <div class="grid-2">
           <div class="card">
-            <h3 style="margin:0 0 8px 0">مراسلة المسؤول</h3>
-            <label>رسالتك</label>
-            <textarea id="msgText" rows="4" placeholder="اكتب سؤالك للمسؤول..."></textarea>
-            <button class="btn" id="sendMsg" style="margin-top:10px">إرسال</button>
-            <div class="muted" id="msgSendInfo" style="margin-top:6px"></div>
+            <div class="badge">محادثتي مع المسؤول</div>
+            <div id="sChat" style="height:260px; overflow:auto; padding:6px"></div>
+            <div class="space"></div>
+            <div class="row">
+              <input id="sMsgInput" placeholder="اكتب رسالتك هنا...">
+              <button class="btn btn-primary" id="sSendMsg">إرسال</button>
+            </div>
           </div>
           <div class="card">
-            <h3 style="margin:0 0 8px 0">ردود المسؤول</h3>
-            <div id="msgInbox" class="list"></div>
+            <div class="badge">تنبيه</div>
+            <div class="foot">ننبهك بعدم مشاركة معلوماتك الشخصية. المحادثة تُحفظ محليًا.</div>
           </div>
         </div>
       </div>
 
       <div id="sProfile" class="hidden">
         <div class="card">
-          <h3 style="margin:0 0 8px 0">تعديل كلمة المرور</h3>
-          <div class="grid-2">
+          <div class="badge">تعديل الملف الشخصي</div>
+          <div class="space"></div>
+          <div class="row">
+            <div>
+              <label>اسم المستخدم</label>
+              <input id="pUser" disabled>
+              <div class="hint">لا يمكن تعديل اسم المستخدم</div>
+            </div>
             <div>
               <label>كلمة المرور الجديدة</label>
-              <input id="newPass" type="password" placeholder="••••••••">
-            </div>
-            <div>
-              <label>تأكيد كلمة المرور</label>
-              <input id="newPass2" type="password" placeholder="••••••••">
+              <input id="pPass" type="password" placeholder="اتركه فارغًا إن لم ترغب بالتغيير">
             </div>
           </div>
-          <button class="btn" id="savePass" style="margin-top:10px">حفظ</button>
-          <div class="muted" id="passMsg" style="margin-top:6px"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ====== ADMIN DASH ====== -->
-    <div id="adminView" class="hidden">
-      <div class="tabs">
-        <div class="tab active" data-atab="students">الطلاب</div>
-        <div class="tab" data-atab="builder">إنشاء تجميعات/اختبارات</div>
-        <div class="tab" data-atab="results">نتائج الطلاب</div>
-        <div class="tab" data-atab="inbox">الرسائل</div>
-        <div style="margin-inline-start:auto" class="tab" id="logoutA">تسجيل الخروج</div>
-      </div>
-
-      <div id="aStudents">
-        <div class="card">
-          <h3 style="margin:0 0 10px 0">قائمة الطلاب المسجلين</h3>
-          <div id="studentsTable"></div>
+          <div class="space"></div>
+          <button class="btn btn-primary" id="btnSaveProfile">حفظ التعديل</button>
+          <div id="pMsg" class="foot"></div>
         </div>
       </div>
 
-      <div id="aBuilder" class="hidden">
+      <!-- واجهة حل الاختبار للطالب -->
+      <div id="takeView" class="hidden">
         <div class="card">
-          <h3 style="margin:0 0 8px 0">معلومات الاختبار</h3>
-          <div class="grid-2">
+          <div class="flex" style="justify-content:space-between; align-items:center">
             <div>
-              <label>العنوان</label>
-              <input id="tTitle" placeholder="تجميع كمي 1">
+              <div class="badge" id="tType">تجميع</div>
+              <h2 id="tTitle" class="title" style="margin:6px 0">—</h2>
             </div>
-            <div>
-              <label>القسم</label>
-              <select id="tSection">
-                <option>كمي</option>
-                <option>لفظي</option>
+            <div class="flex">
+              <div class="pill">السؤال <span id="tIdx">1</span>/<span id="tTotal">1</span></div>
+              <div class="pill timer" id="tTimer">40s</div>
+              <button class="btn" id="tExit">إنهاء</button>
+            </div>
+          </div>
+          <div class="divider"></div>
+
+          <div id="qArea">
+            <div id="qText" style="font-size:18px; font-weight:700; margin:6px 0 10px">—</div>
+            <img id="qImg" class="img-q hidden" alt="">
+            <div id="opts" style="margin-top:12px"></div>
+          </div>
+
+          <div class="space"></div>
+          <div class="flex" style="justify-content:space-between">
+            <button class="btn" id="prevQ">السابق</button>
+            <button class="btn btn-primary" id="nextQ">التالي</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== محتوى المسؤول ===== -->
+      <div id="aHome" class="hidden">
+        <div class="grid-3">
+          <div class="card">
+            <div class="badge">إجمالي الطلاب</div>
+            <div class="kpi" id="kStudents">0</div>
+          </div>
+          <div class="card">
+            <div class="badge">إجمالي التجميعات</div>
+            <div class="kpi" id="kTests">0</div>
+          </div>
+          <div class="card">
+            <div class="badge">إجمالي المحاولات</div>
+            <div class="kpi" id="kSubs">0</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="aTests" class="hidden">
+        <div class="grid-2">
+          <!-- إنشاء تجميع -->
+          <div class="card">
+            <div class="badge">إنشاء تجميع جديد</div>
+            <div class="row" style="margin-top:10px">
+              <input id="newTitle" placeholder="اسم التجميع (مثال: كمي 10 أسئلة)">
+              <select id="newType">
+                <option value="quant">كمي</option>
+                <option value="verb">لفظي</option>
               </select>
             </div>
+            <div class="space"></div>
+            <div id="qBuilder"></div>
+            <div class="space"></div>
+            <div class="flex">
+              <button class="btn" id="addQ">إضافة سؤال</button>
+              <button class="btn btn-primary" id="saveTest">حفظ التجميع</button>
+            </div>
+            <div class="foot">لكل سؤال صورة (اختياري) + 4 خيارات + تحديد الإجابة الصحيحة.</div>
           </div>
 
-          <h3 style="margin:16px 0 8px 0">إضافة سؤال</h3>
-          <div class="grid-2">
-            <div>
-              <label>نص السؤال</label>
-              <textarea id="qText" rows="3" placeholder="اكتب السؤال هنا..."></textarea>
-              <label style="margin-top:8px">صورة (اختياري)</label>
-              <input type="file" id="qImg" accept="image/*">
-              <img id="qImgPreview" class="img-preview hidden">
-            </div>
-            <div>
-              <label>الخيارات</label>
-              <div class="list">
-                <input class="opt" placeholder="الخيار 1">
-                <input class="opt" placeholder="الخيار 2">
-                <input class="opt" placeholder="الخيار 3">
-                <input class="opt" placeholder="الخيار 4">
-              </div>
-              <label style="margin-top:8px">الإجابة الصحيحة (رقم 1-4)</label>
-              <input id="qCorrect" type="number" min="1" max="4" value="1" style="max-width:120px">
-              <div class="row" style="margin-top:10px">
-                <button class="btn" id="addQ">إضافة السؤال للقائمة</button>
-                <button class="btn ghost" id="clearQ">مسح</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="card" style="margin-top:12px">
-            <div class="row" style="justify-content:space-between">
-              <strong>قائمة الأسئلة</strong>
-              <button class="btn secondary" id="saveTest">حفظ الاختبار</button>
-            </div>
-            <div id="qsPreview" class="list" style="margin-top:8px"></div>
+          <!-- قائمة التجميعات -->
+          <div class="card">
+            <div class="badge">التجميعات الموجودة</div>
+            <div id="testsList" class="grid-auto" style="margin-top:10px"></div>
           </div>
         </div>
       </div>
 
       <div id="aResults" class="hidden">
         <div class="card">
-          <div class="row" style="justify-content:space-between;align-items:center">
-            <h3 style="margin:0">نتائج الطلاب</h3>
-            <button class="btn" id="exportCSV">تصدير CSV</button>
+          <div class="badge">نتائج الطلاب لكل اختبار</div>
+          <div class="row" style="margin-top:10px">
+            <select id="selTest"></select>
+            <button class="btn" id="btnExport">تصدير CSV (Excel)</button>
           </div>
-          <div id="adminResults"></div>
+          <div class="space"></div>
+          <table class="list" id="resTable">
+            <thead><tr><th>التاريخ</th><th>الطالب</th><th>اسم المستخدم</th><th>الدرجة</th><th>المدة</th></tr></thead>
+            <tbody></tbody>
+          </table>
         </div>
       </div>
 
-      <div id="aInbox" class="hidden">
+      <div id="aMsgs" class="hidden">
+        <div class="grid-2">
+          <div class="card">
+            <div class="badge">قائمة المحادثات</div>
+            <div id="threads" style="max-height:280px; overflow:auto"></div>
+          </div>
+          <div class="card">
+            <div class="badge">المحادثة</div>
+            <div id="aChat" style="height:240px; overflow:auto; padding:6px"></div>
+            <div class="space"></div>
+            <div class="row">
+              <input id="aMsgInput" placeholder="رد المسؤول...">
+              <button class="btn btn-primary" id="aSendMsg">إرسال</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="aStudents" class="hidden">
         <div class="card">
-          <h3 style="margin:0 0 8px 0">رسائل الطلاب</h3>
-          <div id="adminInbox" class="list"></div>
+          <div class="badge">الطلاب المسجلون</div>
+          <table class="list" id="stuTable">
+            <thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>الصف</th><th>الفصل</th></tr></thead>
+            <tbody></tbody>
+          </table>
         </div>
       </div>
-    </div>
 
-    <!-- ====== TEST MODAL ====== -->
-    <div id="testModal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.7);display:grid;place-items:center;z-index:9999">
-      <div class="panel" style="max-width:900px;width:min(900px,92vw)">
-        <div class="row" style="justify-content:space-between;align-items:center">
-          <h3 id="tmTitle" style="margin:0"></h3>
-          <span class="tag" id="tmTimer">40</span>
-        </div>
-        <div id="tmBody" style="margin-top:8px"></div>
-        <div class="row" style="margin-top:12px;justify-content:space-between">
-          <button class="btn ghost" id="prevQ">السابق</button>
-          <div class="row">
-            <button class="btn secondary" id="nextQ">التالي</button>
-            <button class="btn" id="finishTest">إنهاء</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    </section>
   </div>
 
   <script>
-    // ===== Utilities & Storage =====
-    const $ = s=>document.querySelector(s);
-    const el = (tag,props={},children=[])=>{
-      const e=document.createElement(tag);
-      Object.assign(e,props);
-      children.forEach(c=>e.appendChild(typeof c==='string'?document.createTextNode(c):c));
-      return e;
-    };
-
+    // ================== أدوات تخزين محلية ==================
     const DB = {
-      read(k, def){ try{ return JSON.parse(localStorage.getItem(k)) ?? def }catch{ return def } },
-      write(k,v){ localStorage.setItem(k, JSON.stringify(v)) }
+      get(key, def){ try{ return JSON.parse(localStorage.getItem(key)) ?? def }catch{ return def } },
+      set(key, val){ localStorage.setItem(key, JSON.stringify(val)) }
+    };
+    const uid = ()=> Math.random().toString(36).slice(2,10);
+
+    // مفاتيح قاعدة بيانات محلية
+    const K = {
+      users: 'mshkat_users',       // [{id, name, user, pass, grade, klass, role:'student'}]
+      tests: 'mshkat_tests',       // [{id, title, type:'quant'|'verb', questions:[{text,img,opts[4],correct(0..3)}]}]
+      subs:  'mshkat_submissions', // [{id, testId, user, score, elapsedSec, at}]
+      msgs:  'mshkat_messages'     // { username: [{from:'student'|'admin', text, at}] }
     };
 
-    // Seed admin user if not exists
-    (function seed(){
-      const users = DB.read('users', []);
-      if(!users.find(u=>u.role==='admin')){
-        users.push({id:'admin', username:'admin', password:'admin', role:'admin', fullname:'مدير النظام'});
-        DB.write('users', users);
-      }
-      if(!DB.read('tests', null)){
-        DB.write('tests', []); // {id,title,section,questions:[{text,img,options[],correct}], createdAt}
-      }
-      if(!DB.read('results', null)){ DB.write('results', []) } // {testId, username, score, total, at}
-      if(!DB.read('messages', null)){ DB.write('messages', []) } // {id,from,to,text,reply,at}
-    })();
+    // تهيئة أولية
+    if(!DB.get(K.users)) DB.set(K.users, []);
+    if(!DB.get(K.tests)) DB.set(K.tests, []);
+    if(!DB.get(K.subs))  DB.set(K.subs,  []);
+    if(!DB.get(K.msgs))  DB.set(K.msgs,  {});
 
-    let currentUser = null;
+    // ================== عناصر مساعدة ==================
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
 
-    const motivs = [
-      "أنت قدها — خطوة اليوم تصنع فرق الغد.",
-      "ركّز، تنفّس، وابدأ. القمة بانتظارك.",
-      "كل سؤال فرصة، وكل محاولة إنجاز.",
-      "نتعب اليوم… ننبسط بالنتيجة بكرة.",
-      "الأسطورة داخلك — خلّها تشتغل!"
+    // عبارات تحفيزية
+    const MOT = [
+      "إصرارك اليوم يساوي نجاحك غدًا ✨",
+      "خطوة صغيرة كل يوم تصنع فارقًا كبيرًا 💪",
+      "ركّز، وثِق بنفسك، والباقي سيتبع 🌟",
+      "عقلك أقوى مما تتخيل — انطلق! 🚀",
+      "كل محاولة تقرّبك من الدرجة الكاملة 🔥"
     ];
 
-    // ===== AUTH =====
-    $('#btnRegister').onclick = ()=>{
-      const fullname = $('#regFullname').value.trim();
-      const username = $('#regUsername').value.trim();
-      const p1 = $('#regPassword').value, p2 = $('#regPassword2').value;
-      const grade = $('#regGrade').value, klass = $('#regClass').value;
+    // المستخدم الحالي
+    let currentUser = null;
 
-      if(!fullname || !username || !p1){ return $('#regMsg').textContent="فضلاً املأ الحقول المطلوبة"; }
-      if(p1!==p2){ return $('#regMsg').textContent="تأكيد كلمة المرور غير مطابق"; }
+    // ================== تسجيل حساب ==================
+    $('#btnRegister').onclick = () => {
+      const name = $('#rName').value.trim();
+      const user = $('#rUser').value.trim();
+      const pass = $('#rPass').value;
+      const pass2= $('#rPass2').value;
+      const grade= $('#rGrade').value.trim();
+      const klass= $('#rClass').value.trim();
 
-      const users = DB.read('users', []);
-      if(users.find(u=>u.username===username)){ return $('#regMsg').textContent="اسم المستخدم مستخدم سابقاً"; }
+      if(!name || !user || !pass){ $('#regMsg').textContent = "الرجاء تعبئة الحقول الأساسية."; return; }
+      if(pass!==pass2){ $('#regMsg').textContent = "كلمتا المرور غير متطابقتين."; return; }
 
-      users.push({ id:crypto.randomUUID(), fullname, username, password:p1, role:'student', grade, class:klass, progress:0 });
-      DB.write('users', users);
-      $('#regMsg').textContent = "تم إنشاء الحساب! الآن سجّل دخولك من اليمين ✨";
-      $('#regFullname').value = $('#regUsername').value = $('#regPassword').value = $('#regPassword2').value = "";
-      $('#regGrade').value = $('#regClass').value = "";
+      const users = DB.get(K.users, []);
+      if(users.some(u=>u.user===user)){ $('#regMsg').textContent = "اسم المستخدم مستخدم مسبقًا."; return; }
+
+      users.push({id:uid(), name, user, pass, grade, klass, role:'student'});
+      DB.set(K.users, users);
+      $('#regMsg').textContent = "تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول.";
+      $('#rName').value = $('#rUser').value = $('#rPass').value = $('#rPass2').value = "";
+      $('#rGrade').value = $('#rClass').value = "";
+      refreshAdminKpis();
     };
 
-    $('#btnLogin').onclick = ()=>{
-      const u = $('#loginUsername').value.trim();
-      const p = $('#loginPassword').value;
-      const users = DB.read('users', []);
-      const user = users.find(x=>x.username===u && x.password===p);
-      if(!user){ $('#loginMsg').textContent="بيانات الدخول غير صحيحة"; return; }
-      currentUser = user;
-      $('#loginMsg').textContent="";
-      route();
-    };
+    // ================== دخول ==================
+    $('#btnLogin').onclick = () => {
+      const user = $('#lUser').value.trim();
+      const pass = $('#lPass').value;
 
-    const logout = ()=>{ currentUser=null; route(); }
-
-    // ===== ROUTER =====
-    function route(){
-      $('#authView').classList.add('hidden');
-      $('#studentView').classList.add('hidden');
-      $('#adminView').classList.add('hidden');
-      $('#userMini').innerHTML = "";
-
-      if(!currentUser){
-        $('#authView').classList.remove('hidden');
+      if(user==='admin' && pass==='admin'){
+        currentUser = {user:'admin', role:'admin', name:'المسؤول'};
+        enterApp();
         return;
       }
-      $('#userMini').innerHTML = `<span class="tag">مرحباً ${currentUser.fullname||currentUser.username}</span>`;
-      if(currentUser.role==='student'){ $('#studentView').classList.remove('hidden'); showStudent(); }
-      if(currentUser.role==='admin'){ $('#adminView').classList.remove('hidden'); showAdmin(); }
-    }
-
-    // ===== STUDENT =====
-    // Tabs
-    document.querySelectorAll('#studentView .tab[data-stab]').forEach(t=>{
-      t.onclick = ()=>{
-        document.querySelectorAll('#studentView .tab').forEach(x=>x.classList.remove('active'));
-        t.classList.add('active');
-        const id = t.dataset.stab;
-        ['sHome','sCollections','sResults','sMessages','sProfile'].forEach(x=>$('#'+x).classList.add('hidden'));
-        if(id==='home') $('#sHome').classList.remove('hidden');
-        if(id==='collections') { $('#sCollections').classList.remove('hidden'); renderTestsForStudent(); }
-        if(id==='results') { $('#sResults').classList.remove('hidden'); renderMyResults(); }
-        if(id==='messages') { $('#sMessages').classList.remove('hidden'); renderStudentInbox(); }
-        if(id==='profile') $('#sProfile').classList.remove('hidden');
-      }
-    });
-    $('#logoutS').onclick = logout;
-
-    function showStudent(){
-      // Motivation
-      $('#motiv').textContent = motivs[Math.floor(Math.random()*motivs.length)];
-      // Progress
-      const results = DB.read('results', []).filter(r=>r.username===currentUser.username);
-      const pct = results.length ? Math.round(100 * results.reduce((a,x)=>a+(x.score/x.total),0) / results.length) : 0;
-      $('#progressPct').textContent = pct+"%";
-      $('#progressBar').value = pct;
-      // Leaderboard
-      renderLeaderMini();
-      // Info
-      $('#studentInfo').innerHTML = `
-        <div>الاسم: <strong>${currentUser.fullname||'-'}</strong></div>
-        <div>الصف: <strong>${currentUser.grade||'-'}</strong> — الفصل: <strong>${currentUser.class||'-'}</strong></div>
-        <div>اسم المستخدم: <strong>${currentUser.username}</strong></div>
-      `;
-      // Default tab
-      document.querySelectorAll('#studentView .tab').forEach(x=>x.classList.remove('active'));
-      document.querySelector('#studentView .tab[data-stab="home"]').classList.add('active');
-      ['sHome','sCollections','sResults','sMessages','sProfile'].forEach(x=>$('#'+x).classList.add('hidden'));
-      $('#sHome').classList.remove('hidden');
-    }
-
-    function renderLeaderMini(){
-      const results = DB.read('results', []);
-      // Compute best average per user
-      const byUser = {};
-      results.forEach(r=>{
-        byUser[r.username] ??= {sum:0, n:0};
-        byUser[r.username].sum += r.score/r.total;
-        byUser[r.username].n++;
-      });
-      const users = DB.read('users', []);
-      const rows = Object.entries(byUser).map(([u,v])=>{
-        const name = users.find(x=>x.username===u)?.fullname || u;
-        const avg = v.n ? Math.round(100*(v.sum/v.n)) : 0;
-        return {u,name,avg};
-      }).sort((a,b)=>b.avg-a.avg).slice(0,5);
-      $('#leaderMini').innerHTML = rows.length? rows.map(r=>`<div>🏆 <strong>${r.name}</strong> — ${r.avg}%</div>`).join("") : '<div class="muted">لا توجد نتائج بعد</div>';
-    }
-
-    function renderTestsForStudent(){
-      const tests = DB.read('tests', []);
-      if(!tests.length){ $('#testsList').innerHTML = '<div class="muted">لا توجد اختبارات حالياً</div>'; return; }
-      const myResults = DB.read('results', []).filter(r=>r.username===currentUser.username);
-      $('#testsList').innerHTML = tests.map(t=>{
-        const attempts = myResults.filter(r=>r.testId===t.id);
-        const last = attempts.at(-1);
-        const badge = last ? `<span class="tag">آخر نتيجة: ${last.score}/${last.total}</span>` : `<span class="tag">جديد</span>`;
-        return `
-          <div class="card">
-            <div class="row" style="justify-content:space-between;align-items:center">
-              <div>
-                <div><strong>${t.title}</strong> — <span class="muted">${t.section}</span></div>
-                <div class="row" style="margin-top:6px;gap:8px">${badge} <span class="tag">عدد المحاولات: ${attempts.length}</span></div>
-              </div>
-              <button class="btn" onclick="startTest('${t.id}')">بدء/إعادة</button>
-            </div>
-          </div>
-        `;
-      }).join("");
-    }
-
-    function renderMyResults(){
-      const rows = DB.read('results', []).filter(r=>r.username===currentUser.username);
-      if(!rows.length){ $('#myResults').innerHTML='<div class="muted">لا توجد نتائج بعد</div>'; return; }
-      const tests = DB.read('tests', []);
-      let html = `<table><thead><tr><th>التاريخ</th><th>العنوان</th><th>النتيجة</th></tr></thead><tbody>`;
-      rows.slice().reverse().forEach(r=>{
-        const t = tests.find(x=>x.id===r.testId);
-        html += `<tr><td>${new Date(r.at).toLocaleString('ar-SA')}</td><td>${t?.title||'-'}</td><td><strong>${r.score}</strong> / ${r.total}</td></tr>`;
-      });
-      html += `</tbody></table>`;
-      $('#myResults').innerHTML = html;
-    }
-
-    // Messages (student)
-    $('#sendMsg').onclick = ()=>{
-      const txt = $('#msgText').value.trim();
-      if(!txt){ $('#msgSendInfo').textContent="اكتب رسالة أولاً"; return; }
-      const msgs = DB.read('messages', []);
-      msgs.push({id:crypto.randomUUID(), from:currentUser.username, to:'admin', text:txt, reply:null, at:Date.now()});
-      DB.write('messages', msgs);
-      $('#msgText').value="";
-      $('#msgSendInfo').textContent="تم إرسال الرسالة 👌";
-      renderStudentInbox();
+      const users = DB.get(K.users, []);
+      const found = users.find(u=>u.user===user && u.pass===pass);
+      if(!found){ $('#loginMsg').textContent = "بيانات الدخول غير صحيحة."; return; }
+      currentUser = found;
+      enterApp();
     };
-    function renderStudentInbox(){
-      const msgs = DB.read('messages', []).filter(m=>m.from===currentUser.username);
-      $('#msgInbox').innerHTML = msgs.length? msgs.slice().reverse().map(m=>`
-        <div class="card">
-          <div class="muted">${new Date(m.at).toLocaleString('ar-SA')}</div>
-          <div style="margin-top:6px">${m.text}</div>
-          ${m.reply? `<div class="tag" style="margin-top:8px">رد المسؤول: ${m.reply}</div>`:''}
+
+    $('#btnLogout').onclick = ()=>{ currentUser=null; $('#app').classList.add('hidden'); $('#auth').classList.remove('hidden'); };
+
+    // ================== دخول التطبيق وتوجيه الواجهات ==================
+    function enterApp(){
+      $('#auth').classList.add('hidden');
+      $('#app').classList.remove('hidden');
+      $('#hiTitle').textContent = currentUser.role==='admin' ? "لوحة المسؤول" : `مرحبًا ${currentUser.name.split(' ')[0]}!`;
+      $('#hiSub').textContent = currentUser.role==='admin' ? "أدر المنصّة باحتراف" : "انطلق نحو درجة أسطورية 💫";
+      $('#roleBadge').textContent = currentUser.role==='admin' ? "مسؤول" : "طالب";
+
+      if(currentUser.role==='admin'){
+        $('#adminTabs').classList.remove('hidden'); $('#studentTabs').classList.add('hidden');
+        switchTab('aHome');
+        refreshAdminKpis();
+        renderTestsList();
+        fillSelTest();
+        renderStudentsTable();
+        renderThreads();
+      }else{
+        $('#studentTabs').classList.remove('hidden'); $('#adminTabs').classList.add('hidden');
+        $('#motivation').textContent = MOT[Math.floor(Math.random()*MOT.length)];
+        switchTab('sHome');
+        renderHomeBlocks();
+        renderAllBank();
+        renderStudentResults();
+        renderSChat();
+        $('#pUser').value = currentUser.user;
+        $('#pPass').value = '';
+      }
+    }
+
+    // تبويب عام
+    $$('.tab').forEach(t=>{
+      t.onclick = ()=> switchTab(t.dataset.tab);
+    });
+    function switchTab(id){
+      // أخفِ الجميع
+      ['sHome','sBank','sResults','sMsgs','sProfile','aHome','aTests','aResults','aMsgs','aStudents','takeView'].forEach(x=>$('#'+x).classList.add('hidden'));
+      // ألغِ تفعيل التبويبات
+      $$('.tab').forEach(t=>t.classList.remove('active'));
+      // أظهر المختار
+      $('#'+id).classList.remove('hidden');
+      // فعّل التبويب
+      $$('.tab').find(t=>t.dataset.tab===id)?.classList.add('active');
+
+      // تحديثات خاصة
+      if(id==='sHome') renderHomeBlocks();
+      if(id==='sBank') renderAllBank();
+      if(id==='sResults') renderStudentResults();
+      if(id==='sMsgs') renderSChat();
+      if(id==='aHome') refreshAdminKpis();
+      if(id==='aTests'){ renderTestsList(); }
+      if(id==='aResults'){ fillSelTest(); renderResultsTable(); }
+      if(id==='aStudents'){ renderStudentsTable(); }
+      if(id==='aMsgs'){ renderThreads(); }
+    }
+
+    // ================== واجهة الطالب ==================
+    function tests(){ return DB.get(K.tests, []) }
+    function subs(){ return DB.get(K.subs,  []) }
+
+    function renderHomeBlocks(){
+      // تقدّم الطالب = متوسط أعلى 5 درجات
+      const my = subs().filter(s=>s.user===currentUser.user).sort((a,b)=>b.score-a.score).slice(0,5);
+      const avg = my.length? Math.round(my.reduce((x,s)=>x+s.score,0)/my.length) : 0;
+      $('#progressPct').textContent = avg;
+      $('#progressBar').style.width = avg+'%';
+
+      // لوحة الصدارة — أفضل متوسّط أعلى 5 لكل طالب
+      const users = DB.get(K.users, []);
+      const map = {};
+      subs().forEach(s=>{
+        map[s.user] = map[s.user] || [];
+        map[s.user].push(s.score);
+      });
+      const rows = users.map(u=>{
+        const arr = (map[u.user]||[]).sort((a,b)=>b-a).slice(0,5);
+        const av = arr.length? Math.round(arr.reduce((x,y)=>x+y,0)/arr.length) : 0;
+        return {name:u.name, user:u.user, avg:av};
+      }).sort((a,b)=> b.avg - a.avg).slice(0,10);
+
+      $('#leaderboard').innerHTML = `<tr><th>#</th><th>الطالب</th><th>المتوسط</th></tr>`+
+        rows.map((r,i)=>`<tr><td>${i+1}</td><td>${r.name}</td><td>${r.avg}</td></tr>`).join('');
+
+      // التجميعات
+      renderBankTo('quantList','quant');
+      renderBankTo('verbList','verb');
+    }
+
+    function renderBankTo(elId, type){
+      const list = tests().filter(t=>t.type===type);
+      $('#'+elId).innerHTML = list.map(t=> testCard(t)).join('') || `<div class="foot">لا توجد تجميعات بعد.</div>`;
+      // اربط الأزرار
+      list.forEach(t=>{
+        $('#start_'+t.id)?.addEventListener('click', ()=> startTest(t.id));
+      });
+    }
+    function renderAllBank(){
+      const list = tests();
+      $('#allBank').innerHTML = list.map(t=> testCard(t)).join('') || `<div class="foot">لا توجد تجميعات بعد.</div>`;
+      list.forEach(t=>{
+        $('#start_'+t.id)?.addEventListener('click', ()=> startTest(t.id));
+      });
+    }
+    function testCard(t){
+      return `
+      <div class="card">
+        <div class="flex" style="justify-content:space-between">
+          <div>
+            <div class="badge">${t.type==='quant'?'كمي':'لفظي'}</div>
+            <div style="font-weight:900;margin-top:6px">${t.title}</div>
+          </div>
+          <div class="pill">${t.questions.length} سؤال</div>
         </div>
-      `).join("") : '<div class="muted">لا توجد رسائل</div>';
+        <div class="space"></div>
+        <button class="btn btn-primary" id="start_${t.id}">ابدأ الآن</button>
+      </div>`;
     }
 
-    // Profile (student)
-    $('#savePass').onclick = ()=>{
-      const p1 = $('#newPass').value, p2 = $('#newPass2').value;
-      if(!p1){ $('#passMsg').textContent="أدخل كلمة مرور"; return; }
-      if(p1!==p2){ $('#passMsg').textContent="تأكيد كلمة المرور غير مطابق"; return; }
-      const users = DB.read('users', []);
-      const me = users.find(u=>u.username===currentUser.username);
-      me.password = p1;
-      DB.write('users', users);
-      $('#passMsg').textContent="تم التحديث ✔";
-      $('#newPass').value = $('#newPass2').value = "";
+    // نتائجي
+    function renderStudentResults(){
+      const my = subs().filter(s=>s.user===currentUser.user).sort((a,b)=> new Date(b.at)-new Date(a.at));
+      const tmap = Object.fromEntries(tests().map(t=>[t.id,t]));
+      $('#myResults tbody').innerHTML = my.map(s=>`
+        <tr>
+          <td>${new Date(s.at).toLocaleString('ar-SA')}</td>
+          <td>${tmap[s.testId]?.title||'-'}</td>
+          <td>${s.score}</td>
+          <td>${fmtTime(s.elapsedSec)}</td>
+        </tr>`).join('') || `<tr><td colspan="4" class="center">لا توجد نتائج بعد.</td></tr>`;
+    }
+
+    // رسائل الطالب مع المسؤول
+    function renderSChat(){
+      const all = DB.get(K.msgs,{});
+      const arr = all[currentUser.user]||[];
+      $('#sChat').innerHTML = arr.map(m=> bubble(m, m.from==='student')).join('') || `<div class="foot">ابدأ محادثتك مع المسؤول.</div>`;
+      $('#sChat').scrollTop = 999999;
+    }
+    $('#sSendMsg').onclick = ()=>{
+      const text = $('#sMsgInput').value.trim(); if(!text) return;
+      const all = DB.get(K.msgs,{});
+      all[currentUser.user] = all[currentUser.user]||[];
+      all[currentUser.user].push({from:'student', text, at:new Date().toISOString()});
+      DB.set(K.msgs, all);
+      $('#sMsgInput').value = '';
+      renderSChat(); renderThreads(); // حدّث جانب المسؤول
     };
 
-    // ===== ADMIN =====
-    document.querySelectorAll('#adminView .tab[data-atab]').forEach(t=>{
-      t.onclick = ()=>{
-        document.querySelectorAll('#adminView .tab').forEach(x=>x.classList.remove('active'));
-        t.classList.add('active');
-        const id = t.dataset.atab;
-        ['aStudents','aBuilder','aResults','aInbox'].forEach(x=>$('#'+x).classList.add('hidden'));
-        if(id==='students') { $('#aStudents').classList.remove('hidden'); renderStudents(); }
-        if(id==='builder') { $('#aBuilder').classList.remove('hidden'); renderQsPreview(); }
-        if(id==='results') { $('#aResults').classList.remove('hidden'); renderAdminResults(); }
-        if(id==='inbox')   { $('#aInbox').classList.remove('hidden'); renderAdminInbox(); }
+    // تعديل كلمة المرور
+    $('#btnSaveProfile').onclick = ()=>{
+      const p = $('#pPass').value;
+      if(!p){ $('#pMsg').textContent = "لم يتم التغيير."; return; }
+      const users = DB.get(K.users, []);
+      const u = users.find(x=>x.user===currentUser.user);
+      if(u){ u.pass = p; DB.set(K.users, users); $('#pMsg').textContent = "تم تحديث كلمة المرور."; $('#pPass').value=''; }
+    };
+
+    // ================== حل الاختبار للطالب ==================
+    let take = null; // حالة الحل { test, answers[], idx, timer, elapsed }
+
+    function startTest(testId){
+      const t = tests().find(x=>x.id===testId);
+      if(!t) return alert('التجميع غير موجود.');
+      take = { test: JSON.parse(JSON.stringify(t)), answers: Array(t.questions.length).fill(null), idx:0, timer:null, remain:40, elapsed:0, started:Date.now() };
+      showQuestion();
+      $('#studentTabs').classList.add('hidden'); // إخفاء التبويبات أثناء الحل
+      switchView('takeView');
+      runTimer();
+    }
+    function switchView(id){
+      ['sHome','sBank','sResults','sMsgs','sProfile','aHome','aTests','aResults','aMsgs','aStudents','takeView'].forEach(x=>$('#'+x).classList.add('hidden'));
+      $('#'+id).classList.remove('hidden');
+    }
+    function showQuestion(){
+      const q = take.test.questions[take.idx];
+      $('#tType').textContent = take.test.type==='quant'?'كمي':'لفظي';
+      $('#tTitle').textContent = take.test.title;
+      $('#tIdx').textContent = take.idx+1;
+      $('#tTotal').textContent = take.test.questions.length;
+      $('#tTimer').textContent = take.remain+'s';
+
+      $('#qText').textContent = q.text;
+      if(q.img){ $('#qImg').src = q.img; $('#qImg').classList.remove('hidden'); } else { $('#qImg').classList.add('hidden'); }
+      // الخيارات
+      const chosen = take.answers[take.idx];
+      $('#opts').innerHTML = q.opts.map((o,i)=>`
+        <label style="display:flex;align-items:center;gap:10px;margin:8px 0">
+          <input type="radio" name="opt" ${chosen===i?'checked':''} value="${i}">
+          <div>${String.fromCharCode(0x0661+i)}) ${o}</div>
+        </label>
+      `).join('');
+      // التبديل يحدّث الإجابة
+      $$('input[name="opt"]').forEach(r=> r.onchange = ()=> take.answers[take.idx] = +r.value );
+    }
+    function runTimer(){
+      clearInterval(take.timer);
+      take.remain = 40; // 40 ثانية لكل سؤال
+      $('#tTimer').textContent = take.remain+'s';
+      take.timer = setInterval(()=>{
+        take.remain--; take.elapsed++;
+        $('#tTimer').textContent = take.remain+'s';
+        if(take.remain<=0){ nextQ(); }
+      },1000);
+    }
+    function nextQ(){
+      // إذا باقي أسئلة تقدّم وإلا أنهِ
+      if(take.idx < take.test.questions.length-1){
+        take.idx++; showQuestion(); runTimer();
+      }else{
+        finishTest();
       }
-    });
-    $('#logoutA').onclick = logout;
-
-    function showAdmin(){
-      // default tab
-      document.querySelectorAll('#adminView .tab').forEach(x=>x.classList.remove('active'));
-      document.querySelector('#adminView .tab[data-atab="students"]').classList.add('active');
-      ['aStudents','aBuilder','aResults','aInbox'].forEach(x=>$('#'+x).classList.add('hidden'));
-      $('#aStudents').classList.remove('hidden');
-      renderStudents();
     }
-
-    function renderStudents(){
-      const users = DB.read('users', []).filter(u=>u.role==='student');
-      if(!users.length){ $('#studentsTable').innerHTML='<div class="muted">لا يوجد طلاب مسجلون</div>'; return; }
-      let html = `<table><thead><tr><th>الاسم</th><th>اسم المستخدم</th><th>الصف</th><th>الفصل</th></tr></thead><tbody>`;
-      users.forEach(s=>{
-        html += `<tr><td>${s.fullname||'-'}</td><td>${s.username}</td><td>${s.grade||'-'}</td><td>${s.class||'-'}</td></tr>`;
-      });
-      html += `</tbody></table>`;
-      $('#studentsTable').innerHTML = html;
+    function prevQ(){
+      if(take.idx>0){ take.idx--; showQuestion(); runTimer(); }
     }
-
-    // Builder
-    let buildQs = []; // session list
-    $('#qImg').addEventListener('change', (e)=>{
-      const f = e.target.files?.[0]; if(!f) return;
-      const reader = new FileReader();
-      reader.onload = ()=>{ $('#qImgPreview').src = reader.result; $('#qImgPreview').classList.remove('hidden'); };
-      reader.readAsDataURL(f);
-    });
-    $('#clearQ').onclick = ()=>{
-      $('#qText').value=""; document.querySelectorAll('.opt').forEach((o,i)=>o.value=""); $('#qCorrect').value=1;
-      $('#qImg').value=""; $('#qImgPreview').classList.add('hidden'); $('#qImgPreview').src="";
-    };
-    $('#addQ').onclick = ()=>{
-      const text = $('#qText').value.trim(); if(!text){ alert('اكتب نص السؤال'); return; }
-      const opts = [...document.querySelectorAll('.opt')].map(o=>o.value).filter(Boolean);
-      if(opts.length<2){ alert('أدخل خيارين على الأقل'); return; }
-      const correct = parseInt($('#qCorrect').value||'1'); if(correct<1 || correct>opts.length){ alert('رقم الإجابة الصحيحة غير صحيح'); return; }
-      const img = $('#qImgPreview').src || null;
-      buildQs.push({text, options:opts, correct:correct-1, img});
-      renderQsPreview();
-      $('#clearQ').click();
-    };
-    function renderQsPreview(){
-      $('#qsPreview').innerHTML = buildQs.length? buildQs.map((q,i)=>`
-        <div class="card">
-          <div class="row" style="justify-content:space-between;align-items:center">
-            <strong>س${i+1}:</strong>
-            <button class="btn ghost" onclick="delBuildQ(${i})">حذف</button>
-          </div>
-          <div style="margin-top:6px">${q.text}</div>
-          ${q.img? `<img class="img-preview" src="${q.img}">` : ""}
-          <div class="muted" style="margin-top:6px">الخيارات: ${q.options.map((o,j)=> j===q.correct? `<strong>(${j+1}) ${o}</strong>` : `(${j+1}) ${o}`).join(' — ')}</div>
-        </div>
-      `).join("") : '<div class="muted">لا توجد أسئلة بعد</div>';
-    }
-    window.delBuildQ = (i)=>{ buildQs.splice(i,1); renderQsPreview(); }
-
-    $('#saveTest').onclick = ()=>{
-      const title = $('#tTitle').value.trim(); if(!title){ alert('أدخل العنوان'); return; }
-      const section = $('#tSection').value;
-      if(buildQs.length===0){ alert('أضف سؤالاً واحداً على الأقل'); return; }
-      const tests = DB.read('tests', []);
-      tests.push({ id:crypto.randomUUID(), title, section, questions:buildQs, createdAt:Date.now() });
-      DB.write('tests', tests);
-      buildQs = []; renderQsPreview();
-      $('#tTitle').value="";
-      alert('تم حفظ الاختبار ✅');
-    };
-
-    // Admin Results
-    function renderAdminResults(){
-      const results = DB.read('results', []);
-      const tests = DB.read('tests', []);
-      const users = DB.read('users', []).filter(u=>u.role==='student');
-      if(!results.length){ $('#adminResults').innerHTML='<div class="muted">لا توجد نتائج</div>'; return; }
-      let html = `<table><thead><tr><th>التاريخ</th><th>الطالب</th><th>الاختبار</th><th>النتيجة</th></tr></thead><tbody>`;
-      results.slice().reverse().forEach(r=>{
-        const t = tests.find(x=>x.id===r.testId);
-        const name = users.find(u=>u.username===r.username)?.fullname || r.username;
-        html += `<tr><td>${new Date(r.at).toLocaleString('ar-SA')}</td><td>${name}</td><td>${t?.title||'-'}</td><td><strong>${r.score}</strong> / ${r.total}</td></tr>`;
-      });
-      html += `</tbody></table>`;
-      $('#adminResults').innerHTML = html;
-    }
-
-    $('#exportCSV').onclick = ()=>{
-      const rows = DB.read('results', []);
-      if(!rows.length){ alert('لا توجد نتائج'); return; }
-      const tests = DB.read('tests', []);
-      const users = DB.read('users', []);
-      const header = ['التاريخ','اسم المستخدم','الاسم','عنوان الاختبار','النتيجة','المجموع'];
-      const csv = [header.join(',')].concat(rows.map(r=>{
-        const t = tests.find(x=>x.id===r.testId);
-        const u = users.find(x=>x.username===r.username);
-        return [
-          new Date(r.at).toLocaleString('ar-SA'),
-          r.username,
-          (u?.fullname||''),
-          (t?.title||''),
-          r.score, r.total
-        ].map(x=>`"${String(x).replace(/"/g,'""')}"`).join(',');
-      })).join('\n');
-      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'results.csv';
-      document.body.appendChild(a); a.click(); a.remove();
-    };
-
-    // Admin Inbox
-    function renderAdminInbox(){
-      const msgs = DB.read('messages', []).slice().reverse();
-      const users = DB.read('users', []);
-      $('#adminInbox').innerHTML = msgs.length? msgs.map(m=>{
-        const name = users.find(u=>u.username===m.from)?.fullname || m.from;
-        return `
-          <div class="card">
-            <div class="muted">${new Date(m.at).toLocaleString('ar-SA')} — من: <strong>${name}</strong></div>
-            <div style="margin-top:6px">${m.text}</div>
-            <div class="row" style="margin-top:8px">
-              <input id="reply_${m.id}" placeholder="اكتب ردك">
-              <button class="btn secondary" onclick="sendReply('${m.id}')">إرسال الرد</button>
-              ${m.reply? `<span class="tag">آخر رد: ${m.reply}</span>`:''}
-            </div>
-          </div>
-        `;
-      }).join("") : '<div class="muted">لا رسائل</div>';
-    }
-    window.sendReply = (id)=>{
-      const inp = document.getElementById('reply_'+id);
-      const msgs = DB.read('messages', []);
-      const m = msgs.find(x=>x.id===id); if(!m) return;
-      const txt = inp.value.trim(); if(!txt) return;
-      m.reply = txt; DB.write('messages', msgs);
-      renderAdminInbox();
-    };
-
-    // ===== TEST RUNNER =====
-    let run = { test:null, idx:0, answers:[], timeLeft:40, timer:null };
-
-    window.startTest = (testId)=>{
-      run.test = DB.read('tests', []).find(t=>t.id===testId);
-      if(!run.test) return;
-      run.idx = 0; run.answers = new Array(run.test.questions.length).fill(null);
-      openTestModal();
-      loadQuestion();
-    };
-
-    function openTestModal(){ $('#testModal').classList.remove('hidden'); $('#tmTitle').textContent = run.test.title; }
-    function closeTestModal(){ $('#testModal').classList.add('hidden'); stopTimer(); }
-
-    function loadQuestion(){
-      stopTimer();
-      run.timeLeft = 40;
-      tick();
-      run.timer = setInterval(tick, 1000);
-
-      const q = run.test.questions[run.idx];
-      const body = [];
-      body.push(`<div class="muted">السؤال ${run.idx+1} من ${run.test.questions.length}</div>`);
-      if(q.img) body.push(`<img class="img-preview" src="${q.img}">`);
-      body.push(`<div style="margin-top:8px;font-weight:700">${q.text}</div>`);
-      body.push(`<div class="list" style="margin-top:8px">`+
-        q.options.map((o,i)=>`
-          <label style="display:flex;gap:8px;align-items:center">
-            <input type="radio" name="ans" value="${i}" ${run.answers[run.idx]===i?'checked':''}>
-            ${o}
-          </label>
-        `).join('') + `</div>`);
-      $('#tmBody').innerHTML = body.join('');
-
-      document.querySelectorAll('input[name="ans"]').forEach(r=>{
-        r.onchange = ()=>{ run.answers[run.idx] = +r.value; };
-      });
-
-      // Buttons availability
-      $('#prevQ').disabled = run.idx===0;
-      $('#nextQ').disabled = run.idx===run.test.questions.length-1;
-    }
-
-    function tick(){
-      $('#tmTimer').textContent = run.timeLeft;
-      if(run.timeLeft<=0){ // auto-next or finish
-        if(run.idx < run.test.questions.length-1){ run.idx++; loadQuestion(); }
-        else { finishTest(); }
-      }
-      run.timeLeft--;
-    }
-    function stopTimer(){ if(run.timer){ clearInterval(run.timer); run.timer=null; } }
-
-    $('#nextQ').onclick = ()=>{ if(run.idx<run.test.questions.length-1){ run.idx++; loadQuestion(); } };
-    $('#prevQ').onclick = ()=>{ if(run.idx>0){ run.idx--; loadQuestion(); } };
-    $('#finishTest').onclick = finishTest;
+    $('#nextQ').onclick = nextQ;
+    $('#prevQ').onclick = prevQ;
+    $('#tExit').onclick = finishTest;
 
     function finishTest(){
-      stopTimer();
-      const qs = run.test.questions;
+      if(!take) return;
+      clearInterval(take.timer);
+      // الحساب
       let score = 0;
-      qs.forEach((q,i)=>{ if(run.answers[i]===q.correct) score++; });
-      const results = DB.read('results', []);
-      results.push({ testId:run.test.id, username:currentUser.username, score, total:qs.length, at:Date.now() });
-      DB.write('results', results);
-      closeTestModal();
-      alert(`انتهى الاختبار — نتيجتك: ${score} / ${qs.length}`);
-      showStudent(); renderTestsForStudent(); renderMyResults();
+      take.test.questions.forEach((q,i)=>{ if(take.answers[i]===q.correct) score++; });
+      const pct = Math.round(100*score/take.test.questions.length);
+      const elapsed = Math.floor((Date.now()-take.started)/1000);
+      // احفظ محاولة (عدد غير محدود)
+      const arr = DB.get(K.subs, []);
+      arr.push({id:uid(), testId: take.test.id, user: currentUser.user, score: pct, elapsedSec: elapsed, at: new Date().toISOString()});
+      DB.set(K.subs, arr);
+      take=null;
+
+      alert('تم إنهاء الاختبار. درجتك: '+pct);
+      // ارجع للطالب
+      $('#studentTabs').classList.remove('hidden');
+      switchTab('sResults');
+      renderHomeBlocks();
     }
 
-    // ===== Global initial =====
-    // Quick demo data (optional): add a sample test if none
-    (function demo(){
-      const tests = DB.read('tests', []);
-      if(tests.length===0){
-        DB.write('tests', [{
-          id: crypto.randomUUID(),
-          title: "تجميع كمي تجريبي",
-          section: "كمي",
-          createdAt: Date.now(),
-          questions: [
-            { text:"كم ناتج 5 + 7 ؟", img:null, options:["10","11","12","13"], correct:2 },
-            { text:"قيمة 9 × 3 ؟", img:null, options:["18","27","21","24"], correct:1 }
-          ]
-        },{
-          id: crypto.randomUUID(),
-          title: "تجميع لفظي تجريبي",
-          section: "لفظي",
-          createdAt: Date.now(),
-          questions: [
-            { text:"مرادف كلمة (وجل):", img:null, options:["خائف","سعيد","مندهش","مفتخر"], correct:0 },
-            { text:"ضد كلمة (جلّي):", img:null, options:["واضح","غامض","قوي","قليل"], correct:1 }
-          ]
-        }]);
+    // ================== لوحة المسؤول ==================
+    function refreshAdminKpis(){
+      $('#kStudents').textContent = DB.get(K.users, []).length;
+      $('#kTests').textContent    = DB.get(K.tests, []).length;
+      $('#kSubs').textContent     = DB.get(K.subs,  []).length;
+    }
+
+    // مُنشئ الأسئلة
+    $('#addQ').onclick = ()=>{
+      const cont = $('#qBuilder');
+      const id = uid();
+      const block = document.createElement('div');
+      block.className = 'card';
+      block.style.marginBottom = '10px';
+      block.innerHTML = `
+        <div class="badge">سؤال جديد</div>
+        <div class="row" style="margin-top:8px">
+          <textarea data-k="text" rows="2" placeholder="نص السؤال"></textarea>
+          <input data-k="img" type="file" accept="image/*">
+        </div>
+        <div class="row" style="margin-top:8px">
+          <input data-k="o0" placeholder="الخيار 1">
+          <input data-k="o1" placeholder="الخيار 2">
+        </div>
+        <div class="row" style="margin-top:8px">
+          <input data-k="o2" placeholder="الخيار 3">
+          <input data-k="o3" placeholder="الخيار 4">
+        </div>
+        <div class="row" style="margin-top:8px">
+          <select data-k="correct">
+            <option value="0">الصحيح: 1</option>
+            <option value="1">الصحيح: 2</option>
+            <option value="2">الصحيح: 3</option>
+            <option value="3">الصحيح: 4</option>
+          </select>
+          <button class="btn danger" data-k="del">حذف السؤال</button>
+        </div>
+      `;
+      cont.appendChild(block);
+
+      // رفع الصورة إلى dataURL
+      const up = block.querySelector('[data-k="img"]');
+      up.onchange = (e)=>{
+        const file = e.target.files[0]; if(!file) return;
+        const rdr = new FileReader();
+        rdr.onload = ()=>{ up.dataset.dataurl = rdr.result; };
+        rdr.readAsDataURL(file);
+      };
+      // حذف
+      block.querySelector('[data-k="del"]').onclick = ()=> block.remove();
+    };
+
+    // حفظ التجميع
+    $('#saveTest').onclick = ()=>{
+      const title = $('#newTitle').value.trim();
+      const type  = $('#newType').value;
+      if(!title){ alert('أدخل اسم التجميع.'); return; }
+      const blocks = Array.from($('#qBuilder').children);
+      if(blocks.length===0){ alert('أضف سؤالًا واحدًا على الأقل.'); return; }
+
+      const questions = blocks.map(b=>{
+        const text = b.querySelector('[data-k="text"]').value.trim();
+        const o0 = b.querySelector('[data-k="o0"]').value.trim();
+        const o1 = b.querySelector('[data-k="o1"]').value.trim();
+        const o2 = b.querySelector('[data-k="o2"]').value.trim();
+        const o3 = b.querySelector('[data-k="o3"]').value.trim();
+        const correct = +b.querySelector('[data-k="correct"]').value;
+        const img = b.querySelector('[data-k="img"]').dataset.dataurl || '';
+        if(!text || !o0 || !o1 || !o2 || !o3) throw new Error('أكمل جميع الحقول في الأسئلة.');
+        return {text, img, opts:[o0,o1,o2,o3], correct};
+      });
+
+      const list = DB.get(K.tests, []);
+      list.push({id:uid(), title, type, questions});
+      DB.set(K.tests, list);
+
+      $('#newTitle').value=''; $('#qBuilder').innerHTML='';
+      alert('تم حفظ التجميع.');
+      renderTestsList(); refreshAdminKpis(); fillSelTest();
+    };
+
+    function renderTestsList(){
+      const list = DB.get(K.tests, []);
+      $('#testsList').innerHTML = list.map(t=>`
+        <div class="card">
+          <div class="flex" style="justify-content:space-between">
+            <div><div class="badge">${t.type==='quant'?'كمي':'لفظي'}</div><div style="font-weight:900;margin-top:6px">${t.title}</div></div>
+            <div class="pill">${t.questions.length} سؤال</div>
+          </div>
+          <div class="space"></div>
+          <div class="flex">
+            <button class="btn" data-act="export" data-id="${t.id}">تصدير CSV للنتائج</button>
+            <button class="btn danger" data-act="del" data-id="${t.id}">حذف</button>
+          </div>
+        </div>
+      `).join('') || `<div class="foot">لا توجد تجميعات بعد.</div>`;
+      // ربط أزرار
+      $('#testsList').querySelectorAll('button').forEach(b=>{
+        const act = b.dataset.act, id = b.dataset.id;
+        if(act==='del') b.onclick = ()=>{ delTest(id); };
+        if(act==='export') b.onclick = ()=>{ exportCSV(id); };
+      });
+    }
+    function delTest(id){
+      if(!confirm('تأكيد حذف التجميع؟ سيتم حذف أسئلته فقط (المحاولات تبقى محفوظة).')) return;
+      const list = DB.get(K.tests, []).filter(t=>t.id!==id);
+      DB.set(K.tests, list);
+      renderTestsList(); refreshAdminKpis(); fillSelTest();
+    }
+
+    // نتائج المسؤول
+    function fillSelTest(){
+      const list = DB.get(K.tests, []);
+      $('#selTest').innerHTML = `<option value="">— اختر تجميعًا —</option>` +
+        list.map(t=>`<option value="${t.id}">${t.title}</option>`).join('');
+    }
+    $('#selTest').onchange = ()=> renderResultsTable();
+
+    function renderResultsTable(){
+      const tid = $('#selTest').value;
+      const rows = subs().filter(s=> !tid || s.testId===tid).sort((a,b)=> new Date(b.at)-new Date(a.at));
+      const users = Object.fromEntries(DB.get(K.users, []).map(u=>[u.user,u]));
+      $('#resTable tbody').innerHTML = rows.map(r=>`
+        <tr>
+          <td>${new Date(r.at).toLocaleString('ar-SA')}</td>
+          <td>${users[r.user]?.name||'-'}</td>
+          <td>${r.user}</td>
+          <td>${r.score}</td>
+          <td>${fmtTime(r.elapsedSec)}</td>
+        </tr>`).join('') || `<tr><td class="center" colspan="5">لا توجد نتائج.</td></tr>`;
+    }
+
+    // تصدير CSV
+    function exportCSV(testId){
+      const rows = subs().filter(s=> !testId || s.testId===testId);
+      const users = Object.fromEntries(DB.get(K.users, []).map(u=>[u.user,u]));
+      const lines = [['التاريخ','الطالب','اسم المستخدم','الدرجة','المدة','testId']];
+      rows.forEach(r=>{
+        lines.push([
+          new Date(r.at).toLocaleString('ar-SA'),
+          users[r.user]?.name||'',
+          r.user,
+          r.score,
+          fmtTime(r.elapsedSec),
+          r.testId
+        ]);
+      });
+      const csv = lines.map(r=> r.map(x=> `"${String(x).replace(/"/g,'""')}"`).join(',')).join('\n');
+      download('results.csv', csv, 'text/csv;charset=utf-8;');
+    }
+    $('#btnExport').onclick = ()=> exportCSV($('#selTest').value || '');
+
+    // طلاب مسجلون
+    function renderStudentsTable(){
+      const list = DB.get(K.users, []);
+      $('#stuTable tbody').innerHTML = list.map(u=>`
+        <tr><td>${u.name}</td><td>${u.user}</td><td>${u.grade||'-'}</td><td>${u.klass||'-'}</td></tr>
+      `).join('') || `<tr><td colspan="4" class="center">لا يوجد طلاب بعد.</td></tr>`;
+    }
+
+    // رسائل المسؤول
+    function renderThreads(){
+      const msgs = DB.get(K.msgs,{});
+      const users = DB.get(K.users, []);
+      const order = Object.keys(msgs).sort((a,b)=>{
+        const aAt = msgs[a].slice(-1)[0]?.at || 0;
+        const bAt = msgs[b].slice(-1)[0]?.at || 0;
+        return new Date(bAt)-new Date(aAt);
+      });
+      $('#threads').innerHTML = order.map(u=>{
+        const name = users.find(x=>x.user===u)?.name || u;
+        return `<div class="card" data-thread="${u}" style="cursor:pointer"><div style="font-weight:700">${name}</div><div class="foot mono">@${u}</div></div>`;
+      }).join('') || `<div class="foot">لا توجد محادثات.</div>`;
+
+      // افتراضيًا اختر أول خيط
+      currentThread = currentThread && msgs[currentThread] ? currentThread : order[0]||null;
+      renderAChat();
+      // اربط
+      $('#threads').querySelectorAll('[data-thread]').forEach(el=>{
+        el.onclick = ()=>{ currentThread = el.dataset.thread; renderAChat(); };
+      });
+    }
+    let currentThread = null;
+    function renderAChat(){
+      const msgs = DB.get(K.msgs,{});
+      const arr = msgs[currentThread]||[];
+      $('#aChat').innerHTML = currentThread ? arr.map(m=> bubble(m, m.from==='student')).join('') : `<div class="foot">اختر محادثة من اليسار.</div>`;
+      $('#aChat').scrollTop = 999999;
+    }
+    $('#aSendMsg').onclick = ()=>{
+      if(!currentThread) return;
+      const text = $('#aMsgInput').value.trim(); if(!text) return;
+      const all = DB.get(K.msgs,{});
+      all[currentThread] = all[currentThread]||[];
+      all[currentThread].push({from:'admin', text, at:new Date().toISOString()});
+      DB.set(K.msgs, all);
+      $('#aMsgInput').value='';
+      renderAChat(); renderSChat();
+    };
+
+    // ================== أدوات عامة ==================
+    function bubble(m, isStudent){
+      return `<div style="display:flex;${isStudent?'justify-content:flex-start':'justify-content:flex-end'}">
+        <div class="card" style="max-width:70%; ${isStudent?'background:rgba(29,78,216,.18)':'background:rgba(6,182,212,.18)'}">
+          <div style="font-size:12px; opacity:.7">${new Date(m.at).toLocaleString('ar-SA')}</div>
+          <div>${escapeHtml(m.text)}</div>
+        </div>
+      </div>`;
+    }
+    function fmtTime(sec){
+      const m = Math.floor(sec/60), s = sec%60;
+      return `${m}:${String(s).padStart(2,'0')}`;
+    }
+    function download(filename, data, mime='text/plain'){
+      const blob = new Blob([data], {type:mime});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = filename; a.click();
+      setTimeout(()=> URL.revokeObjectURL(a.href), 1000);
+    }
+    function escapeHtml(s){ return s.replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])) }
+
+    // أزرار لوحة الحل
+    document.addEventListener('keydown', (e)=>{
+      if(!$('#takeView').classList.contains('hidden')){
+        if(e.key==='ArrowRight') nextQ();
+        if(e.key==='ArrowLeft') prevQ();
       }
-    })();
+    });
 
-    // Header actions
-    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') $('#testModal').classList.add('hidden'); });
-
-    // Start
-    route();
+    // عند التحميل إن وُجد جلسة قديمة يمكنك لاحقًا استعادتها...
   </script>
 </body>
 </html>
