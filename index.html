@@ -3,62 +3,139 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>منصّة القدرات — ثانوية مشكاة المنار الأهلية</title>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <title>الواجهة بالصورة — منصة مشكاة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0b0f1a;
-      --paper:#111827;
-      --ink:#f8fafc;
-      --muted:#9ca3af;
-      --primary:#1e40af; /* أزرق ملكي عميق */
-      --primary-2:#0b1d63;
-      --gold:#d4af37; /* ذهبي فاخر */
-      --ok:#16a34a; --warn:#f59e0b; --err:#ef4444;
-      --line:rgba(255,255,255,.08);
-      --shadow:0 12px 40px rgba(0,0,0,.45);
+      /* ضع رابط صورتك هنا */
+      --hero: url("https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2000&auto=format&fit=crop");
+      /* اجعلها contain للمطابقة 100% بدون قص. (بدّلها إلى cover لو تبي ملء كامل) */
+      --fit: contain;
+
+      /* ألوان وهوية فخمة قابلة للتوسّع لاحقاً */
+      --bg:#0b1020; --bg2:#0f152a; --card:#0e162c; --muted:#9fb0c7;
+      --gold:#d4af37; --royal:#1d4ed8; --teal:#06b6d4;
+      --glass: rgba(255,255,255,.06);
     }
+
     *{box-sizing:border-box}
-    html,body{
-      margin:0;
-      font-family:'Tajawal',system-ui,Arial,Helvetica,sans-serif;
-      background:var(--bg);
-      color:var(--ink);
-      background-image:
-        radial-gradient(circle at top right, rgba(212,175,55,0.14), transparent 60%),
-        radial-gradient(circle at bottom left, rgba(212,175,55,0.14), transparent 60%),
-        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 200 200"><g fill="none" stroke="%23d4af37" stroke-opacity="0.25" stroke-width="0.6"><path d="M0 50 L200 50"/><path d="M0 100 L200 100"/><path d="M0 150 L200 150"/><path d="M50 0 L50 200"/><path d="M100 0 L100 200"/><path d="M150 0 L150 200"/></g></svg>');
-      background-size: cover, cover, 280px;
-      backdrop-filter: blur(0.5px);
+    html,body{height:100%}
+    body{
+      margin:0; font-family:'Tajawal',system-ui,Arial,sans-serif; color:#e8eef8;
+      background: radial-gradient(1200px 600px at 80% -10%, #16203a 0%, #0b1020 60%, #090c18 100%);
     }
-    body{margin:0;font-family:'Tajawal',system-ui,Arial,Helvetica,sans-serif;background:#f9fafb url('https://i.postimg.cc/3wL5dVw0/paper-texture-light.jpg') repeat;color:var(--ink)}
-    a{color:var(--primary);text-decoration:none}
 
-    .container{max-width:1100px;margin:0 auto;padding:24px}
+    /* شريط علوي شفاف (جاهز لو تبغى شعار أو روابط لاحقاً) */
+    .topbar{
+      position:sticky; top:0; z-index:20; width:100%;
+      backdrop-filter: blur(6px);
+      background: linear-gradient(to bottom, rgba(10,16,32,.65), rgba(10,16,32,0));
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .topbar .wrap{
+      max-width:1200px; margin:auto; padding:12px 20px; display:flex; align-items:center; justify-content:space-between;
+    }
+    .brand{display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.4px}
+    .brand .dot{width:10px; height:10px; border-radius:50%; background:linear-gradient(135deg,var(--gold),#ffd971)}
+    .brand span{background:linear-gradient(90deg,var(--gold),#fff); -webkit-background-clip:text; background-clip:text; color:transparent}
 
-    header{position:sticky;top:0;background:#d4af37;border-bottom:1px solid var(--line);z-index:10}
-    .brand{display:flex;flex-direction:row-reverse;align-items:center;gap:14px}
-    .logo{width:40px;height:40px;border-radius:10px;background:conic-gradient(from 0deg at 50% 50%, #1d4ed8, #06b6d4, #7c3aed, #1d4ed8);box-shadow:0 0 0 2px #fff,0 0 0 3px rgba(29,78,216,.2)}
-    .brand h1{font-size:20px;margin:0}
+    /* ===== الواجهة: الصورة بالأعلى ===== */
+    .hero{
+      width:100%;
+      /* اجعل الارتفاع كما تحب: 90vh تعني 90% من طول الشاشة */
+      min-height: 70vh; /* يبقيها كبيرة في الجوال أيضاً */
+      display:flex; align-items:center; justify-content:center;
+      padding: 0; margin: 0;
+      background: #0a0f22;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .hero-img-wrap{
+      width: 100%;
+      max-width: 1600px; /* يمنع تمدد الصورة أكثر من اللازم على الشاشات العريضة جداً */
+      margin: 0 auto;
+      padding: 0 12px; /* تنفّس بسيط عند الأطراف */
+    }
+    .hero-img{
+      display:block; width:100%;
+      /* طريقة بدون <img>: نستخدم background لتضمن دقّة العرض */
+      aspect-ratio: 16/9; /* عدّلها لو صورتك طولية/مربعة لتطابق 100% */
+      background-image: var(--hero);
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: var(--fit); /* contain = مطابقة 100% بدون قص */
+      background-color: #0a0f22;  /* يظهر خلف الصورة إن فيها فراغ */
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.05);
+    }
 
-    .auth{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
-    .card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow)}
-    .card h2{margin:0 0 8px 0;font-size:18px}
-    label{display:block;font-size:13px;color:var(--muted);margin:12px 0 6px}
-    input,select,textarea{width:100%;padding:12px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink);outline:none}
-    input:focus,select:focus,textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(29,78,216,.12)}
-    textarea{min-height:90px}
-    .btn{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg,var(--primary),var(--primary-2));color:#fff;border:none;padding:12px 16px;border-radius:12px;font-weight:800;cursor:pointer}
-    .btn-ghost{background:#fff;border:1px solid var(--line);color:var(--ink)}
-    .row{display:flex;gap:10px}
-    .row>*{flex:1}
-    .muted{color:var(--muted);font-size:13px}
+    /* ملاحظة صغيرة أعلى/أسفل الواجهة */
+    .hint{
+      max-width:1200px; margin:14px auto 28px; padding:10px 16px;
+      border:1px dashed rgba(212,175,55,.45); color:#d9c27a; background: rgba(212,175,55,.06);
+      border-radius: 12px; text-align:center; font-size:.95rem;
+    }
 
-    .hidden{display:none !important}
-    nav.tabs{display:flex;gap:8px;margin:10px 0}
-    .pill{padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);cursor:pointer;font-size:13px}
-    .pill.active{background:linear-gradient(90deg,#1d4ed8,#06b6d4);color:#fff;border-color:transparent}
+    /* محتوى لاحق للخطوات القادمة */
+    .content{
+      max-width:1200px; margin: 24px auto 80px; padding: 0 16px;
+      display:grid; gap:20px;
+      grid-template-columns: 1fr;
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:16px; padding:18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .card h2{margin:0 0 8px; font-size:1.1rem; color:#f1f5ff}
+    .muted{color:var(--muted); font-size:.95rem; line-height:1.9}
 
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-    @media (max-width:900px){.auth{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
+    /* استجابة */
+    @media (max-width: 768px){
+      .hero-img{ border-radius: 12px; aspect-ratio: 16/9; }
+      .hint{ margin: 10px 12px 20px }
+      .content{ margin: 16px auto 60px }
+    }
+  </style>
+</head>
+<body>
 
+  <!-- شريط علوي (اختياري حالياً) -->
+  <header class="topbar">
+    <div class="wrap">
+      <div class="brand">
+        <span>منصة مشكاة</span>
+        <i class="dot" aria-hidden="true"></i>
+      </div>
+      <nav class="nav" aria-label="Navigation">
+        <!-- نضيف روابط لاحقاً حسب الخطوات القادمة -->
+      </nav>
+    </div>
+  </header>
+
+  <!-- الواجهة بالصورة (الأعلى) -->
+  <section class="hero" aria-label="الواجهة">
+    <div class="hero-img-wrap">
+      <div class="hero-img" role="img" aria-label="واجهة المنصة بالصورة"></div>
+    </div>
+  </section>
+
+  <!-- تلميح صغير: كيف تغيّر الصورة أو طريقة العرض -->
+  <div class="hint">
+    لتغيير الصورة: افتح &larr; <b>:root { --hero: url('رابط-صورتك'); }</b><br/>
+    للمطابقة 100% بدون قص اترك <b>--fit: contain</b> (القيمة الحالية). لملء كامل الشاشة غيّرها إلى <b>cover</b>.
+    ولتطابق أبعاد صورتك تمامًا، عدّل قيمة <b>aspect-ratio</b> بما يوافق أبعاد الصورة.
+  </div>
+
+  <!-- مساحة جاهزة للخطوات القادمة (تسجيل/إنشاء حساب/الخ…) -->
+  <main class="content">
+    <section class="card">
+      <h2>جاهزون للخطوة 2</h2>
+      <p class="muted">
+        هنا بنضيف (حسب توجيهك): تسجيل الدخول/إنشاء حساب، الأقسام (تجميعات لفظي/كمي)، لوحات الصدارة،… إلخ.
+      </p>
+    </section>
+  </main>
+
+</body>
+</html>
